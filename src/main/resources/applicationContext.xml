@@ -48,12 +48,12 @@
     </bean>
     <!-- 配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource"/>
-        <!-- 扫描entity包 使用别名 -->
-        <property name="typeAliasesPackage" value="cn.wmyskxz.entity"/>
-        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!--注入数据库连接池-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--扫描entity包 使用别名-->
+        <property name="typeAliasesPackage" value="com.awakeyoyoyo.entity"></property>
+        <!--扫描sql配置文件mapper需要的xml文件-->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"></property>
     </bean>
     <!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

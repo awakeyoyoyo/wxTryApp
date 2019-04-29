@@ -1,7 +1,9 @@
 package com.awakeyoyoyo.common;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
+@JsonInclude(value= JsonInclude.Include.NON_NULL)//即没有初始化的成员变量 key也会消失，不返回前端
 public class ServerResponse<T> implements Serializable {
     private int status;
     private  String msg;
