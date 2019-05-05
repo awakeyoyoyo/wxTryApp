@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awakeyoyoyo.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Order">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="shipping_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="accept_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="upadate_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="over_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="duser_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="take_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.awakeyoyoyo.entity.Order">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="shipping_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="accept_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="upadate_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="over_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="duser_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="take_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="order_mxg" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_no, shipping_id, status, accept_time, end_time, create_time, upadate_time, 
+    user_id, over_time, duser_id, price, take_address, order_type
+  </sql>
+  <sql id="Blob_Column_List">
+    order_mxg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awakeyoyoyo.entity.Order">
+    insert into order (id, order_no, shipping_id, 
+      status, accept_time, end_time, 
+      create_time, upadate_time, user_id, 
+      over_time, duser_id, price, 
+      take_address, order_type, order_mxg
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{shippingId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{acceptTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{upadateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
+      #{overTime,jdbcType=TIMESTAMP}, #{duserId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{takeAddress,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{orderMxg,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Order">
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="shippingId != null">
+        shipping_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="acceptTime != null">
+        accept_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="upadateTime != null">
+        upadate_time,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="overTime != null">
+        over_time,
+      </if>
+      <if test="duserId != null">
+        duser_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="takeAddress != null">
+        take_address,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="orderMxg != null">
+        order_mxg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="shippingId != null">
+        #{shippingId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="acceptTime != null">
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upadateTime != null">
+        #{upadateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="overTime != null">
+        #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duserId != null">
+        #{duserId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="takeAddress != null">
+        #{takeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMxg != null">
+        #{orderMxg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.Order">
+    update order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="shippingId != null">
+        shipping_id = #{shippingId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="acceptTime != null">
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upadateTime != null">
+        upadate_time = #{upadateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="overTime != null">
+        over_time = #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duserId != null">
+        duser_id = #{duserId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="takeAddress != null">
+        take_address = #{takeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderMxg != null">
+        order_mxg = #{orderMxg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awakeyoyoyo.entity.Order">
+    update order
+    set order_no = #{orderNo,jdbcType=BIGINT},
+      shipping_id = #{shippingId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      upadate_time = #{upadateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      over_time = #{overTime,jdbcType=TIMESTAMP},
+      duser_id = #{duserId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      take_address = #{takeAddress,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      order_mxg = #{orderMxg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Order">
+    update order
+    set order_no = #{orderNo,jdbcType=BIGINT},
+      shipping_id = #{shippingId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      upadate_time = #{upadateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      over_time = #{overTime,jdbcType=TIMESTAMP},
+      duser_id = #{duserId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      take_address = #{takeAddress,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
