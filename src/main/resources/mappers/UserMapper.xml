@@ -140,4 +140,9 @@
       user_type = #{userType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkByPrimaryKey" resultType="java.lang.Integer">
+     SELECT count(1)
+    FROM  user
+    WHERE id=#{id}
+  </select>
 </mapper>

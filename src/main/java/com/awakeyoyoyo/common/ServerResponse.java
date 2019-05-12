@@ -1,7 +1,10 @@
 package com.awakeyoyoyo.common;
 
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import java.io.Serializable;
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)//即没有初始化的成员变量 key也会消失，不返回前端
 public class ServerResponse<T> implements Serializable {
     private int status;
     private  String msg;
@@ -22,6 +25,7 @@ public class ServerResponse<T> implements Serializable {
         this.status=status;
         this.msg=msg;
     }
+    @JsonIgnore
     public boolean isSuccess(){
         return this.status==ResponseCode.SUCCESS.getCode();
     }

@@ -16,4 +16,6 @@ public interface UserMapper {
     int updateByPrimaryKeyWithBLOBs(User record);
 
     int updateByPrimaryKey(User record);
+
+    int  checkByPrimaryKey(Integer id);
 }

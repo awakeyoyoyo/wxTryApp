@@ -6,23 +6,33 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="product_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="product_quantity" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="product_title" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="product_no" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="product_size" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="express_size" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="express_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.awakeyoyoyo.entity.OrderItem">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="express_size" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="express_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="express_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="product_mxg" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, order_no, product_name, product_quantity, product_title, product_no, 
-    product_size, express_name, express_phone, express_pwd
+    id, user_id, order_no, express_size, express_name, express_pwd
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    product_mxg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from order_item
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -32,13 +42,11 @@
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.OrderItem">
     insert into order_item (id, user_id, order_no, 
-      product_name, product_quantity, product_title, 
-      product_no, product_size, express_name, 
-      express_phone, express_pwd)
+      express_size, express_name, express_pwd, 
+      product_mxg)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
-      #{productName,jdbcType=VARCHAR}, #{productQuantity,jdbcType=INTEGER}, #{productTitle,jdbcType=INTEGER}, 
-      #{productNo,jdbcType=INTEGER}, #{productSize,jdbcType=VARCHAR}, #{expressName,jdbcType=VARCHAR}, 
-      #{expressPhone,jdbcType=VARCHAR}, #{expressPwd,jdbcType=VARCHAR})
+      #{expressSize,jdbcType=VARCHAR}, #{expressName,jdbcType=VARCHAR}, #{expressPwd,jdbcType=VARCHAR}, 
+      #{productMxg,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.OrderItem">
     insert into order_item
@@ -52,29 +60,17 @@
       <if test="orderNo != null">
         order_no,
       </if>
-      <if test="productName != null">
-        product_name,
-      </if>
-      <if test="productQuantity != null">
-        product_quantity,
-      </if>
-      <if test="productTitle != null">
-        product_title,
-      </if>
-      <if test="productNo != null">
-        product_no,
-      </if>
-      <if test="productSize != null">
-        product_size,
+      <if test="expressSize != null">
+        express_size,
       </if>
       <if test="expressName != null">
         express_name,
       </if>
-      <if test="expressPhone != null">
-        express_phone,
-      </if>
       <if test="expressPwd != null">
         express_pwd,
+      </if>
+      <if test="productMxg != null">
+        product_mxg,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -87,29 +83,17 @@
       <if test="orderNo != null">
         #{orderNo,jdbcType=BIGINT},
       </if>
-      <if test="productName != null">
-        #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="productQuantity != null">
-        #{productQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="productTitle != null">
-        #{productTitle,jdbcType=INTEGER},
-      </if>
-      <if test="productNo != null">
-        #{productNo,jdbcType=INTEGER},
-      </if>
-      <if test="productSize != null">
-        #{productSize,jdbcType=VARCHAR},
+      <if test="expressSize != null">
+        #{expressSize,jdbcType=VARCHAR},
       </if>
       <if test="expressName != null">
         #{expressName,jdbcType=VARCHAR},
       </if>
-      <if test="expressPhone != null">
-        #{expressPhone,jdbcType=VARCHAR},
-      </if>
       <if test="expressPwd != null">
         #{expressPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="productMxg != null">
+        #{productMxg,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -122,45 +106,45 @@
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=BIGINT},
       </if>
-      <if test="productName != null">
-        product_name = #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="productQuantity != null">
-        product_quantity = #{productQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="productTitle != null">
-        product_title = #{productTitle,jdbcType=INTEGER},
-      </if>
-      <if test="productNo != null">
-        product_no = #{productNo,jdbcType=INTEGER},
-      </if>
-      <if test="productSize != null">
-        product_size = #{productSize,jdbcType=VARCHAR},
+      <if test="expressSize != null">
+        express_size = #{expressSize,jdbcType=VARCHAR},
       </if>
       <if test="expressName != null">
         express_name = #{expressName,jdbcType=VARCHAR},
       </if>
-      <if test="expressPhone != null">
-        express_phone = #{expressPhone,jdbcType=VARCHAR},
-      </if>
       <if test="expressPwd != null">
         express_pwd = #{expressPwd,jdbcType=VARCHAR},
       </if>
+      <if test="productMxg != null">
+        product_mxg = #{productMxg,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awakeyoyoyo.entity.OrderItem">
+    update order_item
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      express_size = #{expressSize,jdbcType=VARCHAR},
+      express_name = #{expressName,jdbcType=VARCHAR},
+      express_pwd = #{expressPwd,jdbcType=VARCHAR},
+      product_mxg = #{productMxg,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.OrderItem">
     update order_item
     set user_id = #{userId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
-      product_name = #{productName,jdbcType=VARCHAR},
-      product_quantity = #{productQuantity,jdbcType=INTEGER},
-      product_title = #{productTitle,jdbcType=INTEGER},
-      product_no = #{productNo,jdbcType=INTEGER},
-      product_size = #{productSize,jdbcType=VARCHAR},
+      express_size = #{expressSize,jdbcType=VARCHAR},
       express_name = #{expressName,jdbcType=VARCHAR},
-      express_phone = #{expressPhone,jdbcType=VARCHAR},
       express_pwd = #{expressPwd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByOrderNo" parameterType="long" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    FROM order_item
+    WHERE order_no=#{orderNo}
+  </select>
 </mapper>

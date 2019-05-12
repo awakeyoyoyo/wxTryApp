@@ -7,34 +7,22 @@ public class OrderItem {
 
     private Long orderNo;
 
-    private String productName;
-
-    private Integer productQuantity;
-
-    private Integer productTitle;
-
-    private Integer productNo;
-
-    private String productSize;
+    private String expressSize;
 
     private String expressName;
 
-    private String expressPhone;
-
     private String expressPwd;
 
-    public OrderItem(Integer id, Integer userId, Long orderNo, String productName, Integer productQuantity, Integer productTitle, Integer productNo, String productSize, String expressName, String expressPhone, String expressPwd) {
+    private String productMxg;
+
+    public OrderItem(Integer id, Integer userId, Long orderNo, String expressSize, String expressName, String expressPwd, String productMxg) {
         this.id = id;
         this.userId = userId;
         this.orderNo = orderNo;
-        this.productName = productName;
-        this.productQuantity = productQuantity;
-        this.productTitle = productTitle;
-        this.productNo = productNo;
-        this.productSize = productSize;
+        this.expressSize = expressSize;
         this.expressName = expressName;
-        this.expressPhone = expressPhone;
         this.expressPwd = expressPwd;
+        this.productMxg = productMxg;
     }
 
     public OrderItem() {
@@ -65,44 +53,12 @@ public class OrderItem {
         this.orderNo = orderNo;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getExpressSize() {
+        return expressSize;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName == null ? null : productName.trim();
-    }
-
-    public Integer getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(Integer productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    public Integer getProductTitle() {
-        return productTitle;
-    }
-
-    public void setProductTitle(Integer productTitle) {
-        this.productTitle = productTitle;
-    }
-
-    public Integer getProductNo() {
-        return productNo;
-    }
-
-    public void setProductNo(Integer productNo) {
-        this.productNo = productNo;
-    }
-
-    public String getProductSize() {
-        return productSize;
-    }
-
-    public void setProductSize(String productSize) {
-        this.productSize = productSize == null ? null : productSize.trim();
+    public void setExpressSize(String expressSize) {
+        this.expressSize = expressSize == null ? null : expressSize.trim();
     }
 
     public String getExpressName() {
@@ -113,19 +69,19 @@ public class OrderItem {
         this.expressName = expressName == null ? null : expressName.trim();
     }
 
-    public String getExpressPhone() {
-        return expressPhone;
-    }
-
-    public void setExpressPhone(String expressPhone) {
-        this.expressPhone = expressPhone == null ? null : expressPhone.trim();
-    }
-
     public String getExpressPwd() {
         return expressPwd;
     }
 
     public void setExpressPwd(String expressPwd) {
         this.expressPwd = expressPwd == null ? null : expressPwd.trim();
+    }
+
+    public String getProductMxg() {
+        return productMxg;
+    }
+
+    public void setProductMxg(String productMxg) {
+        this.productMxg = productMxg == null ? null : productMxg.trim();
     }
 }

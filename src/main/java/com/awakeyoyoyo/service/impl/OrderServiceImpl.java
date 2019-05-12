@@ -58,6 +58,7 @@ public class OrderServiceImpl implements IOrderService {
         }
         //插入数据库
         Wxorder order=new Wxorder();
+        order.setOrderNo(orderNo);
         order.setCreateTime(new Date());
         order.setOrderMxg(orderVo.getOrderMxg());
         order.setOrderType(orderVo.getOrderType());
@@ -144,6 +145,19 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createBySuccess(pageInfo);
         }
         return ServerResponse.createByErrorMessage("获取订单信息失败");
+    }
+
+    @Override
+    public ServerResponse orderItemlists(Integer userId,Long orderNo) {
+       int rowcount= wxorderMapper.checkOrderByUserIdOrderNo(userId,orderNo);
+       if (rowcount<=0){
+           return ServerResponse.createByErrorMessage("没有该订单");
+       }
+        List<OrderItem> orderItems=orderItemMapper.selectByOrderNo(orderNo);
+       if (orderItems==null){
+         return   ServerResponse.createByErrorMessage("该订单没有货物");
+       }
+     return   ServerResponse.createBySuccess(orderItems);
     }
 
     public Long getOrderIdByTime(Integer userId) {
