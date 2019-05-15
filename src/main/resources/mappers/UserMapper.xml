@@ -3,59 +3,48 @@
 <mapper namespace="com.awakeyoyoyo.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.User">
     <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_vx" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <idArg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="user_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_password" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
-    </constructor>
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.awakeyoyoyo.entity.User">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_vx" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_password" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_avater" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+      <arg column="user_number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_sex" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_college" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_profession" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_building" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_domitory" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_vx, user_phone, user_name, user_password, user_type
+    open_id, user_phone, user_name, user_password, user_type, user_number, user_sex, 
+    user_college, user_profession, user_building, user_domitory
   </sql>
-  <sql id="Blob_Column_List">
-    user_avater
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.User">
-    insert into user (id, user_vx, user_phone, 
-      user_name, user_password, user_type, 
-      user_avater)
-    values (#{id,jdbcType=INTEGER}, #{userVx,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
-      #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
-      #{userAvater,jdbcType=LONGVARCHAR})
+    insert into user (open_id, user_phone, user_name, 
+      user_password, user_type, user_number, 
+      user_sex, user_college, user_profession, 
+      user_building, user_domitory)
+    values (#{openId,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userNumber,jdbcType=INTEGER}, 
+      #{userSex,jdbcType=VARCHAR}, #{userCollege,jdbcType=VARCHAR}, #{userProfession,jdbcType=VARCHAR}, 
+      #{userBuilding,jdbcType=VARCHAR}, #{userDomitory,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userVx != null">
-        user_vx,
+      <if test="openId != null">
+        open_id,
       </if>
       <if test="userPhone != null">
         user_phone,
@@ -69,16 +58,28 @@
       <if test="userType != null">
         user_type,
       </if>
-      <if test="userAvater != null">
-        user_avater,
+      <if test="userNumber != null">
+        user_number,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userCollege != null">
+        user_college,
+      </if>
+      <if test="userProfession != null">
+        user_profession,
+      </if>
+      <if test="userBuilding != null">
+        user_building,
+      </if>
+      <if test="userDomitory != null">
+        user_domitory,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userVx != null">
-        #{userVx,jdbcType=VARCHAR},
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
       </if>
       <if test="userPhone != null">
         #{userPhone,jdbcType=VARCHAR},
@@ -92,17 +93,29 @@
       <if test="userType != null">
         #{userType,jdbcType=INTEGER},
       </if>
-      <if test="userAvater != null">
-        #{userAvater,jdbcType=LONGVARCHAR},
+      <if test="userNumber != null">
+        #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userCollege != null">
+        #{userCollege,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfession != null">
+        #{userProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="userBuilding != null">
+        #{userBuilding,jdbcType=VARCHAR},
+      </if>
+      <if test="userDomitory != null">
+        #{userDomitory,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.User">
     update user
     <set>
-      <if test="userVx != null">
-        user_vx = #{userVx,jdbcType=VARCHAR},
-      </if>
       <if test="userPhone != null">
         user_phone = #{userPhone,jdbcType=VARCHAR},
       </if>
@@ -115,34 +128,44 @@
       <if test="userType != null">
         user_type = #{userType,jdbcType=INTEGER},
       </if>
-      <if test="userAvater != null">
-        user_avater = #{userAvater,jdbcType=LONGVARCHAR},
+      <if test="userNumber != null">
+        user_number = #{userNumber,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userCollege != null">
+        user_college = #{userCollege,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfession != null">
+        user_profession = #{userProfession,jdbcType=VARCHAR},
+      </if>
+      <if test="userBuilding != null">
+        user_building = #{userBuilding,jdbcType=VARCHAR},
+      </if>
+      <if test="userDomitory != null">
+        user_domitory = #{userDomitory,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awakeyoyoyo.entity.User">
-    update user
-    set user_vx = #{userVx,jdbcType=VARCHAR},
-      user_phone = #{userPhone,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
-      user_password = #{userPassword,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=INTEGER},
-      user_avater = #{userAvater,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.User">
     update user
-    set user_vx = #{userVx,jdbcType=VARCHAR},
-      user_phone = #{userPhone,jdbcType=VARCHAR},
+    set user_phone = #{userPhone,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+      user_type = #{userType,jdbcType=INTEGER},
+      user_number = #{userNumber,jdbcType=INTEGER},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_college = #{userCollege,jdbcType=VARCHAR},
+      user_profession = #{userProfession,jdbcType=VARCHAR},
+      user_building = #{userBuilding,jdbcType=VARCHAR},
+      user_domitory = #{userDomitory,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=INTEGER}
   </update>
-  <select id="checkByPrimaryKey" resultType="java.lang.Integer">
+  <select id="checkByPrimaryKey" resultType="integer" parameterType="integer">
      SELECT count(1)
     FROM  user
-    WHERE id=#{id}
+    WHERE open_id=#{openId}
   </select>
 </mapper>

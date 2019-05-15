@@ -1,9 +1,7 @@
 package com.awakeyoyoyo.entity;
 
 public class User {
-    private Integer id;
-
-    private String userVx;
+    private Integer openId;
 
     private String userPhone;
 
@@ -13,36 +11,42 @@ public class User {
 
     private Integer userType;
 
-    private String userAvater;
+    private Integer userNumber;
 
-    public User(Integer id, String userVx, String userPhone, String userName, String userPassword, Integer userType, String userAvater) {
-        this.id = id;
-        this.userVx = userVx;
+    private String userSex;
+
+    private String userCollege;
+
+    private String userProfession;
+
+    private String userBuilding;
+
+    private String userDomitory;
+
+    public User(Integer openId, String userPhone, String userName, String userPassword, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory) {
+        this.openId = openId;
         this.userPhone = userPhone;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userType = userType;
-        this.userAvater = userAvater;
+        this.userNumber = userNumber;
+        this.userSex = userSex;
+        this.userCollege = userCollege;
+        this.userProfession = userProfession;
+        this.userBuilding = userBuilding;
+        this.userDomitory = userDomitory;
     }
 
     public User() {
         super();
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getOpenId() {
+        return openId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserVx() {
-        return userVx;
-    }
-
-    public void setUserVx(String userVx) {
-        this.userVx = userVx == null ? null : userVx.trim();
+    public void setOpenId(Integer openId) {
+        this.openId = openId;
     }
 
     public String getUserPhone() {
@@ -77,11 +81,51 @@ public class User {
         this.userType = userType;
     }
 
-    public String getUserAvater() {
-        return userAvater;
+    public Integer getUserNumber() {
+        return userNumber;
     }
 
-    public void setUserAvater(String userAvater) {
-        this.userAvater = userAvater == null ? null : userAvater.trim();
+    public void setUserNumber(Integer userNumber) {
+        this.userNumber = userNumber;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex == null ? null : userSex.trim();
+    }
+
+    public String getUserCollege() {
+        return userCollege;
+    }
+
+    public void setUserCollege(String userCollege) {
+        this.userCollege = userCollege == null ? null : userCollege.trim();
+    }
+
+    public String getUserProfession() {
+        return userProfession;
+    }
+
+    public void setUserProfession(String userProfession) {
+        this.userProfession = userProfession == null ? null : userProfession.trim();
+    }
+
+    public String getUserBuilding() {
+        return userBuilding;
+    }
+
+    public void setUserBuilding(String userBuilding) {
+        this.userBuilding = userBuilding == null ? null : userBuilding.trim();
+    }
+
+    public String getUserDomitory() {
+        return userDomitory;
+    }
+
+    public void setUserDomitory(String userDomitory) {
+        this.userDomitory = userDomitory == null ? null : userDomitory.trim();
     }
 }
