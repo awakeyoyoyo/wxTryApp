@@ -20,7 +20,7 @@ public class JWTUtils {
      *
      * @return
      */
-    public SecretKey generalKey() {
+    public static  SecretKey generalKey() {
         String stringKey = Constant.JWT_SECRET;//密钥
 
         // 本地的密码解码
@@ -38,7 +38,7 @@ public class JWTUtils {
      * @return
      * @throws Exception
      */
-    public String createJWT(String open_id,long ttlMillis) throws Exception {
+    public static String createJWT(String open_id,long ttlMillis) throws Exception {
 
         // 指定签名的时候使用的签名算法，也就是header那部分，jjwt已经将这部分内容封装好了。
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -80,7 +80,7 @@ public class JWTUtils {
      * @return
      * @throws Exception
      */
-    public Claims parseJWT(String jwt) throws Exception {
+    public static Claims parseJWT(String jwt) throws Exception {
         SecretKey key = generalKey();  //签名秘钥，和生成的签名的秘钥一模一样
         Claims claims = Jwts.parser()  //得到DefaultJwtParser
                 .setSigningKey(key)                 //设置签名的秘钥

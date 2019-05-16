@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpUtils {
-
-    public static void main(String[] args) {
-        //发送 GET 请求
-        String s=HttpUtils.SendGet("http://baidu.com", "");
-        System.out.println(s);
-    }
+//
+//    public static void main(String[] args) {
+//        //发送 GET 请求
+//        String s=HttpUtils.SendGet("http://baidu.com", "");
+//        System.out.println(s);
+//
+//    }
 
     public static String SendGet(String url, String param) {
         String result = "";
@@ -29,9 +30,9 @@ public class HttpUtils {
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
             // 遍历所有的响应头字段
-            for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
-            }
+//            for (String key : map.keySet()) {
+//                System.out.println(key + "--->" + map.get(key));
+//            }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));
