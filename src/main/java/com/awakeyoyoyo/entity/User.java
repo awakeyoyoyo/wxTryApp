@@ -7,8 +7,6 @@ public class User {
 
     private String userName;
 
-    private String userPassword;
-
     private Integer userType;
 
     private Integer userNumber;
@@ -23,11 +21,14 @@ public class User {
 
     private String userDomitory;
 
-    public User(Integer openId, String userPhone, String userName, String userPassword, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory) {
+    private String userWx;
+
+    private Integer userStatus;
+
+    public User(Integer openId, String userPhone, String userName, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory, String userWx, Integer userStatus) {
         this.openId = openId;
         this.userPhone = userPhone;
         this.userName = userName;
-        this.userPassword = userPassword;
         this.userType = userType;
         this.userNumber = userNumber;
         this.userSex = userSex;
@@ -35,6 +36,8 @@ public class User {
         this.userProfession = userProfession;
         this.userBuilding = userBuilding;
         this.userDomitory = userDomitory;
+        this.userWx = userWx;
+        this.userStatus = userStatus;
     }
 
     public User() {
@@ -63,14 +66,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
     public Integer getUserType() {
@@ -127,5 +122,21 @@ public class User {
 
     public void setUserDomitory(String userDomitory) {
         this.userDomitory = userDomitory == null ? null : userDomitory.trim();
+    }
+
+    public String getUserWx() {
+        return userWx;
+    }
+
+    public void setUserWx(String userWx) {
+        this.userWx = userWx == null ? null : userWx.trim();
+    }
+
+    public Integer getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Integer userStatus) {
+        this.userStatus = userStatus;
     }
 }

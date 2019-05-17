@@ -30,10 +30,10 @@ public class OrderController {
         return iOrderService.add(orderVo);
     }
 
-    @RequestMapping("/gogogo")
-    public String sss(){
-        return "Listcheck";
-    }
+//    @RequestMapping("/gogogo")
+//    public String sss(){
+//        return "Listcheck";
+//    }
     @RequestMapping("/accept.do")
     @ResponseBody
     public ServerResponse acceptOrder(Long orderNo,Integer duserId){

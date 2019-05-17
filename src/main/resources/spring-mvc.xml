@@ -38,7 +38,24 @@
         </mvc:message-converters>
 
     </mvc:annotation-driven>
+    <mvc:interceptors>
 
+            <mvc:interceptor>
+                <!--匹配的是url路径，如果不匹配或者/**，将拦截所有的Controller-->
+                <mvc:mapping path="/**"/>
+                <!--/login 不需要拦截-->
+                <mvc:exclude-mapping path="/User/login.do"/>
+                <bean class="com.awakeyoyoyo.Interceptor.TokenInterceptor"> </bean>
+            </mvc:interceptor>
+        <mvc:interceptor>
+            <!--匹配的是url路径，如果不匹配或者/**，将拦截所有的Controller-->
+            <mvc:mapping path="/Order/*"/>
+            <!--/login 不需要拦截-->
+            <mvc:exclude-mapping path="/Order/lists"/>
+            <mvc:exclude-mapping path="/Order/orderItems"/>
+            <bean class="com.awakeyoyoyo.Interceptor.UserdoInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!-- servlet-mapping 映射路径:"*.do" "/""-->
     <!--静态资源 默认servlet配置
     1.加入对静态资源的处理：js，gif，png

@@ -4,12 +4,13 @@ import com.awakeyoyoyo.common.OrderStatusCode;
 import com.awakeyoyoyo.common.ServerResponse;
 import com.awakeyoyoyo.dao.OrderItemMapper;
 
+import com.awakeyoyoyo.dao.OrderMapper;
 import com.awakeyoyoyo.dao.UserMapper;
-import com.awakeyoyoyo.dao.WxorderMapper;
+
 
 import com.awakeyoyoyo.entity.OrderItem;
-import com.awakeyoyoyo.entity.Shipping;
-import com.awakeyoyoyo.entity.Wxorder;
+
+
 import com.awakeyoyoyo.service.IOrderService;
 import com.awakeyoyoyo.utils.DateUtils;
 import com.awakeyoyoyo.vo.OrderVo;
@@ -17,7 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private OrderItemMapper orderItemMapper;
     @Autowired
-    private WxorderMapper wxorderMapper;
+    private OrderMapper orderMapper;
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -57,7 +58,7 @@ public class OrderServiceImpl implements IOrderService {
             }
         }
         //插入数据库
-        Wxorder order=new Wxorder();
+        Order order=new order();
         order.setOrderNo(orderNo);
         order.setCreateTime(new Date());
         order.setOrderMxg(orderVo.getOrderMxg());

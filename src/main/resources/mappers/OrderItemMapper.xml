@@ -4,26 +4,28 @@
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.OrderItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="express_size" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="express_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.awakeyoyoyo.entity.OrderItem">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="express_size" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="express_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="express_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="product_mxg" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+      <arg column="product_mxg" javaType="_byte[]" jdbcType="VARBINARY" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, order_no, express_size, express_name, express_pwd
+    id, open_id, order_no, express_size, express_name, express_phone, express_pwd
   </sql>
   <sql id="Blob_Column_List">
     product_mxg
@@ -33,29 +35,29 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from order_item
+    from gotodo_orderItem
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order_item
+    delete from gotodo_orderItem
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.OrderItem">
-    insert into order_item (id, user_id, order_no, 
-      express_size, express_name, express_pwd, 
-      product_mxg)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
-      #{expressSize,jdbcType=VARCHAR}, #{expressName,jdbcType=VARCHAR}, #{expressPwd,jdbcType=VARCHAR}, 
-      #{productMxg,jdbcType=LONGVARCHAR})
+    insert into gotodo_orderItem (id, open_id, order_no, 
+      express_size, express_name, express_phone, 
+      express_pwd, product_mxg)
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, 
+      #{expressSize,jdbcType=VARCHAR}, #{expressName,jdbcType=VARCHAR}, #{expressPhone,jdbcType=VARCHAR}, 
+      #{expressPwd,jdbcType=VARCHAR}, #{productMxg,jdbcType=VARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.OrderItem">
-    insert into order_item
+    insert into gotodo_orderItem
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="openId != null">
+        open_id,
       </if>
       <if test="orderNo != null">
         order_no,
@@ -65,6 +67,9 @@
       </if>
       <if test="expressName != null">
         express_name,
+      </if>
+      <if test="expressPhone != null">
+        express_phone,
       </if>
       <if test="expressPwd != null">
         express_pwd,
@@ -77,8 +82,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=BIGINT},
@@ -89,19 +94,22 @@
       <if test="expressName != null">
         #{expressName,jdbcType=VARCHAR},
       </if>
+      <if test="expressPhone != null">
+        #{expressPhone,jdbcType=VARCHAR},
+      </if>
       <if test="expressPwd != null">
         #{expressPwd,jdbcType=VARCHAR},
       </if>
       <if test="productMxg != null">
-        #{productMxg,jdbcType=LONGVARCHAR},
+        #{productMxg,jdbcType=VARBINARY},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.OrderItem">
-    update order_item
+    update gotodo_orderItem
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=INTEGER},
       </if>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=BIGINT},
@@ -112,39 +120,37 @@
       <if test="expressName != null">
         express_name = #{expressName,jdbcType=VARCHAR},
       </if>
+      <if test="expressPhone != null">
+        express_phone = #{expressPhone,jdbcType=VARCHAR},
+      </if>
       <if test="expressPwd != null">
         express_pwd = #{expressPwd,jdbcType=VARCHAR},
       </if>
       <if test="productMxg != null">
-        product_mxg = #{productMxg,jdbcType=LONGVARCHAR},
+        product_mxg = #{productMxg,jdbcType=VARBINARY},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awakeyoyoyo.entity.OrderItem">
-    update order_item
-    set user_id = #{userId,jdbcType=INTEGER},
+    update gotodo_orderItem
+    set open_id = #{openId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
       express_size = #{expressSize,jdbcType=VARCHAR},
       express_name = #{expressName,jdbcType=VARCHAR},
+      express_phone = #{expressPhone,jdbcType=VARCHAR},
       express_pwd = #{expressPwd,jdbcType=VARCHAR},
-      product_mxg = #{productMxg,jdbcType=LONGVARCHAR}
+      product_mxg = #{productMxg,jdbcType=VARBINARY}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.OrderItem">
-    update order_item
-    set user_id = #{userId,jdbcType=INTEGER},
+    update gotodo_orderItem
+    set open_id = #{openId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
       express_size = #{expressSize,jdbcType=VARCHAR},
       express_name = #{expressName,jdbcType=VARCHAR},
+      express_phone = #{expressPhone,jdbcType=VARCHAR},
       express_pwd = #{expressPwd,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByOrderNo" parameterType="long" resultMap="ResultMapWithBLOBs">
-    SELECT <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    FROM order_item
-    WHERE order_no=#{orderNo}
-  </select>
 </mapper>

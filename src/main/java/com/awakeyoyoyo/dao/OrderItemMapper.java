@@ -2,8 +2,6 @@ package com.awakeyoyoyo.dao;
 
 import com.awakeyoyoyo.entity.OrderItem;
 
-import java.util.List;
-
 public interface OrderItemMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,6 +16,4 @@ public interface OrderItemMapper {
     int updateByPrimaryKeyWithBLOBs(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
-
-    List<OrderItem> selectByOrderNo(Long orderNo);
 }

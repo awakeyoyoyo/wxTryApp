@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awakeyoyoyo.dao.ChargeMapper">
+  <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Charge">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="dpoen_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="charge_mxg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, dpoen_id, charge_mxg, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gotodo_charge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gotodo_charge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awakeyoyoyo.entity.Charge">
+    insert into gotodo_charge (id, open_id, dpoen_id, 
+      charge_mxg, create_time)
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{dpoenId,jdbcType=INTEGER}, 
+      #{chargeMxg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Charge">
+    insert into gotodo_charge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="dpoenId != null">
+        dpoen_id,
+      </if>
+      <if test="chargeMxg != null">
+        charge_mxg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="dpoenId != null">
+        #{dpoenId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeMxg != null">
+        #{chargeMxg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.Charge">
+    update gotodo_charge
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=INTEGER},
+      </if>
+      <if test="dpoenId != null">
+        dpoen_id = #{dpoenId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeMxg != null">
+        charge_mxg = #{chargeMxg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Charge">
+    update gotodo_charge
+    set open_id = #{openId,jdbcType=INTEGER},
+      dpoen_id = #{dpoenId,jdbcType=INTEGER},
+      charge_mxg = #{chargeMxg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
