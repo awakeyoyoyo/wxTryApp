@@ -3,7 +3,7 @@ package com.awakeyoyoyo.entity;
 public class OrderItem {
     private Integer id;
 
-    private Integer userId;
+    private Integer openId;
 
     private Long orderNo;
 
@@ -11,16 +11,19 @@ public class OrderItem {
 
     private String expressName;
 
+    private String expressPhone;
+
     private String expressPwd;
 
-    private String productMxg;
+    private byte[] productMxg;
 
-    public OrderItem(Integer id, Integer userId, Long orderNo, String expressSize, String expressName, String expressPwd, String productMxg) {
+    public OrderItem(Integer id, Integer openId, Long orderNo, String expressSize, String expressName, String expressPhone, String expressPwd, byte[] productMxg) {
         this.id = id;
-        this.userId = userId;
+        this.openId = openId;
         this.orderNo = orderNo;
         this.expressSize = expressSize;
         this.expressName = expressName;
+        this.expressPhone = expressPhone;
         this.expressPwd = expressPwd;
         this.productMxg = productMxg;
     }
@@ -37,12 +40,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getOpenId() {
+        return openId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOpenId(Integer openId) {
+        this.openId = openId;
     }
 
     public Long getOrderNo() {
@@ -69,6 +72,14 @@ public class OrderItem {
         this.expressName = expressName == null ? null : expressName.trim();
     }
 
+    public String getExpressPhone() {
+        return expressPhone;
+    }
+
+    public void setExpressPhone(String expressPhone) {
+        this.expressPhone = expressPhone == null ? null : expressPhone.trim();
+    }
+
     public String getExpressPwd() {
         return expressPwd;
     }
@@ -77,11 +88,11 @@ public class OrderItem {
         this.expressPwd = expressPwd == null ? null : expressPwd.trim();
     }
 
-    public String getProductMxg() {
+    public byte[] getProductMxg() {
         return productMxg;
     }
 
-    public void setProductMxg(String productMxg) {
-        this.productMxg = productMxg == null ? null : productMxg.trim();
+    public void setProductMxg(byte[] productMxg) {
+        this.productMxg = productMxg;
     }
 }

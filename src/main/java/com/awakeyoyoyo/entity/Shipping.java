@@ -3,7 +3,7 @@ package com.awakeyoyoyo.entity;
 public class Shipping {
     private Integer id;
 
-    private Integer userId;
+    private Integer openId;
 
     private String receiverName;
 
@@ -13,9 +13,9 @@ public class Shipping {
 
     private String receiverDormitory;
 
-    public Shipping(Integer id, Integer userId, String receiverName, String receiverPhone, String receiverPlace, String receiverDormitory) {
+    public Shipping(Integer id, Integer openId, String receiverName, String receiverPhone, String receiverPlace, String receiverDormitory) {
         this.id = id;
-        this.userId = userId;
+        this.openId = openId;
         this.receiverName = receiverName;
         this.receiverPhone = receiverPhone;
         this.receiverPlace = receiverPlace;
@@ -34,12 +34,12 @@ public class Shipping {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getOpenId() {
+        return openId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOpenId(Integer openId) {
+        this.openId = openId;
     }
 
     public String getReceiverName() {

@@ -21,15 +21,15 @@ public class ShippingController {
     @RequestMapping(value = "/add.do",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse add(Integer userId, Shipping shipping){
-        return shippingService.add(userId,shipping);
+    public ServerResponse add(Integer openId, Shipping shipping){
+        return shippingService.add(openId,shipping);
     }
 
     @RequestMapping(value = "/delete.do",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse delete(Integer userId, Integer shippingId){
-        return shippingService.delete(userId,shippingId);
+    public ServerResponse delete(Integer openId, Integer shippingId){
+        return shippingService.delete(openId,shippingId);
     }
 
     @RequestMapping(value = "/update.do",
@@ -42,17 +42,24 @@ public class ShippingController {
     @RequestMapping(value = "/select.do",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse select(Integer userId, Integer shippingId)
+    public ServerResponse select(Integer openId, Integer shippingId)
     {
-        return shippingService.selectByUserIdShippingId(userId, shippingId);
+        return shippingService.selectByOpenIdShippingId(openId, shippingId);
     }
 
     @RequestMapping(value = "/lists",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse<PageInfo> select(Integer userId,
+    public ServerResponse<PageInfo> select(Integer openId,
                                            @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                            @RequestParam(value = "pageSize",defaultValue = "3")int pageSize){
-        return shippingService.selectByUserId(userId,pageNum,pageSize);
+        return shippingService.selectByOpenId(openId,pageNum,pageSize);
+    }
+
+    @RequestMapping(value = "/mainShipping",
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public ServerResponse select(Integer openId){
+        return shippingService.selectMainShippingByopenId(openId);
     }
 }

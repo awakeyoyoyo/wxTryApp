@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Shipping">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="receiver_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="receiver_place" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -12,34 +12,34 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, receiver_name, receiver_phone, receiver_place, receiver_dormitory
+    id, open_id, receiver_name, receiver_phone, receiver_place, receiver_dormitory
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from shipping
+    from gotodo_shipping
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from shipping
+    delete from gotodo_shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.Shipping">
-    insert into shipping (id, user_id, receiver_name, 
+    insert into gotodo_shipping (id, open_id, receiver_name, 
       receiver_phone, receiver_place, receiver_dormitory
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
       #{receiverPhone,jdbcType=VARCHAR}, #{receiverPlace,jdbcType=VARCHAR}, #{receiverDormitory,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Shipping">
-    insert into shipping
+    insert into gotodo_shipping
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="openId != null">
+        open_id,
       </if>
       <if test="receiverName != null">
         receiver_name,
@@ -58,8 +58,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="openId != null">
+        #{openId,jdbcType=INTEGER},
       </if>
       <if test="receiverName != null">
         #{receiverName,jdbcType=VARCHAR},
@@ -76,10 +76,10 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.Shipping">
-    update shipping
+    update gotodo_shipping
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=INTEGER},
       </if>
       <if test="receiverName != null">
         receiver_name = #{receiverName,jdbcType=VARCHAR},
@@ -97,27 +97,27 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Shipping">
-    update shipping
-    set user_id = #{userId,jdbcType=INTEGER},
+    update gotodo_shipping
+    set open_id = #{openId,jdbcType=INTEGER},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
       receiver_place = #{receiverPlace,jdbcType=VARCHAR},
       receiver_dormitory = #{receiverDormitory,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <delete id="deleteByUserIdShippingId" parameterType="map">
-    DELETE FROM shipping
-    WHERE user_id=#{userId} AND id=#{shippingId}
+  <delete id="deleteByOpenIdShippingId" parameterType="map">
+    DELETE FROM gotodo_shipping
+    WHERE open_id=#{openId} AND id=#{shippingId}
   </delete>
-  <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+  <select id="selectByOpenId" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"></include>
-    FROM shipping
-    WHERE user_id=#{userId}
+    FROM gotodo_shipping
+    WHERE open_id=#{openId}
   </select>
-  <select id="selectByUserIdShippingId" parameterType="map" resultMap="BaseResultMap">
+  <select id="selectByOpenIdShippingId" resultMap="BaseResultMap" parameterType="map">
     SELECT <include refid="Base_Column_List"></include>
-    FROM  shipping
-    WHERE user_id=#{userId} AND id=#{shippingId}
+    FROM  gotodo_shipping
+    WHERE open_id=#{userId} AND id=#{shippingId}
   </select>
 </mapper>
