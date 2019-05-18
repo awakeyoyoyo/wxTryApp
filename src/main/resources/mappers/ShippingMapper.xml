@@ -105,4 +105,19 @@
       receiver_dormitory = #{receiverDormitory,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteByOpenIdShippingId" parameterType="map">
+    DELETE FROM gotodo_shipping
+    WHERE open_id=#{openId} AND id=#{shippingId}
+  </delete>
+  <select id="selectByOpenId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    FROM gotodo_shipping
+    WHERE open_id=#{openId}
+  </select>
+  <select id="selectByOpenIdShippingId" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_shipping
+    WHERE open_id=#{userId} AND id=#{shippingId}
+  </select>
 </mapper>

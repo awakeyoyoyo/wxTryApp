@@ -2,6 +2,7 @@ package com.awakeyoyoyo.service.impl;
 
 import com.awakeyoyoyo.common.ServerResponse;
 import com.awakeyoyoyo.dao.ShippingMapper;
+import com.awakeyoyoyo.dao.UserMapper;
 import com.awakeyoyoyo.entity.Shipping;
 import com.awakeyoyoyo.service.IShippingService;
 import com.github.pagehelper.PageHelper;
@@ -15,9 +16,10 @@ import java.util.List;
 public class ShippingServiceImpl implements IShippingService {
     @Autowired
     private ShippingMapper shippingMapper;
+    private UserMapper userMapper;
     @Override
-    public ServerResponse add(Integer userId, Shipping shipping) {
-       shipping.setUserId(userId);
+    public ServerResponse add(Integer openId, Shipping shipping) {
+       shipping.setOpenId(openId);
        int rowcount=shippingMapper.insert(shipping);
        if (rowcount>0){
            return ServerResponse.createBySuccess();
@@ -26,8 +28,8 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse delete(Integer userId, Integer shippingId) {
-        int rowcount=shippingMapper.deleteByUserIdShippingId(userId,shippingId);
+    public ServerResponse delete(Integer openId, Integer shippingId) {
+        int rowcount=shippingMapper.deleteByOpenIdShippingId(openId,shippingId);
         if (rowcount>0){
             return ServerResponse.createBySuccess();
         }
@@ -35,9 +37,10 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse update( Shipping shipping) {
+    public ServerResponse update(Shipping shipping) {
 
         int rowcount=shippingMapper.updateByPrimaryKeySelective(shipping);
+
         if (rowcount>0){
             return ServerResponse.createBySuccess();
         }
@@ -45,16 +48,26 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse<PageInfo> selectByUserId(Integer userId,int pageNum,int pageSize) {
+    public ServerResponse<PageInfo> selectByOpenId(Integer openId,int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<Shipping> shippingList=shippingMapper.selectByUserId(userId);
+        List<Shipping> shippingList=shippingMapper.selectByOpenId(openId);
         PageInfo pageInfo=new PageInfo(shippingList);
         return ServerResponse.createBySuccess(pageInfo);
     }
 
     @Override
-    public ServerResponse selectByUserIdShippingId(Integer userId, Integer shippingId) {
-        Shipping shipping=shippingMapper.selectByUserIdShippingId(userId,shippingId);
+    public ServerResponse selectByOpenIdShippingId(Integer openId, Integer shippingId) {
+        Shipping shipping=shippingMapper.selectByOpenIdShippingId(openId,shippingId);
        return  ServerResponse.createBySuccess(shipping);
+    }
+
+    @Override
+    public ServerResponse selectMainShippingByopenId(Integer openId) {
+        Integer shippingId=userMapper.selectMainShippingIdByopenId(openId);
+        if (shippingId==null){
+           return ServerResponse.createBySuccess();
+        }
+        Shipping shipping=shippingMapper.selectByPrimaryKey(shippingId);
+        return ServerResponse.createBySuccess(shipping);
     }
 }

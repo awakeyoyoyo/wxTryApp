@@ -25,7 +25,9 @@ public class User {
 
     private Integer userStatus;
 
-    public User(Integer openId, String userPhone, String userName, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory, String userWx, Integer userStatus) {
+    private Integer userShippingid;
+
+    public User(Integer openId, String userPhone, String userName, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory, String userWx, Integer userStatus, Integer userShippingid) {
         this.openId = openId;
         this.userPhone = userPhone;
         this.userName = userName;
@@ -38,6 +40,7 @@ public class User {
         this.userDomitory = userDomitory;
         this.userWx = userWx;
         this.userStatus = userStatus;
+        this.userShippingid = userShippingid;
     }
 
     public User() {
@@ -138,5 +141,13 @@ public class User {
 
     public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public Integer getUserShippingid() {
+        return userShippingid;
+    }
+
+    public void setUserShippingid(Integer userShippingid) {
+        this.userShippingid = userShippingid;
     }
 }

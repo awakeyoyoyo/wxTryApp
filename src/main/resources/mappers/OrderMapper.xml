@@ -3,8 +3,7 @@
 <mapper namespace="com.awakeyoyoyo.dao.OrderMapper">
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Order">
     <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <idArg column="order_no" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="shipping_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="accept_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -21,39 +20,34 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, shipping_id, status, accept_time, end_time, create_time, success_time, 
+    order_no, shipping_id, status, accept_time, end_time, create_time, success_time, 
     open_id, over_time, duser_id, price, order_mxg, take_address, order_type
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from gotodo_order
-    where id = #{id,jdbcType=INTEGER}
+    where order_no = #{orderNo,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from gotodo_order
-    where id = #{id,jdbcType=INTEGER}
+    where order_no = #{orderNo,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.Order">
-    insert into gotodo_order (id, order_no, shipping_id, 
-      status, accept_time, end_time, 
-      create_time, success_time, open_id, 
-      over_time, duser_id, price, 
-      order_mxg, take_address, order_type
-      )
-    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=BIGINT}, #{shippingId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{acceptTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{successTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=INTEGER}, 
-      #{overTime,jdbcType=TIMESTAMP}, #{duserId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{orderMxg,jdbcType=VARCHAR}, #{takeAddress,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}
-      )
+    insert into gotodo_order (order_no, shipping_id, status, 
+      accept_time, end_time, create_time, 
+      success_time, open_id, over_time, 
+      duser_id, price, order_mxg, 
+      take_address, order_type)
+    values (#{orderNo,jdbcType=BIGINT}, #{shippingId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{acceptTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{successTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=INTEGER}, #{overTime,jdbcType=TIMESTAMP}, 
+      #{duserId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{orderMxg,jdbcType=VARCHAR}, 
+      #{takeAddress,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Order">
     insert into gotodo_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="orderNo != null">
         order_no,
       </if>
@@ -98,9 +92,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=BIGINT},
       </if>
@@ -148,9 +139,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.awakeyoyoyo.entity.Order">
     update gotodo_order
     <set>
-      <if test="orderNo != null">
-        order_no = #{orderNo,jdbcType=BIGINT},
-      </if>
       <if test="shippingId != null">
         shipping_id = #{shippingId,jdbcType=INTEGER},
       </if>
@@ -191,12 +179,11 @@
         order_type = #{orderType,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where order_no = #{orderNo,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Order">
     update gotodo_order
-    set order_no = #{orderNo,jdbcType=BIGINT},
-      shipping_id = #{shippingId,jdbcType=INTEGER},
+    set shipping_id = #{shippingId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       accept_time = #{acceptTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
@@ -209,6 +196,12 @@
       order_mxg = #{orderMxg,jdbcType=VARCHAR},
       take_address = #{takeAddress,jdbcType=VARCHAR},
       order_type = #{orderType,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where order_no = #{orderNo,jdbcType=BIGINT}
   </update>
+  <select id="checkOrderByOpenIdOrderNo" resultType="java.lang.Integer" parameterType="map">
+    SELECT count(1)
+    FROM  gotodo_order
+    WHERE open_id=#{openId}
+    And order_no=#{orderNo}
+  </select>
 </mapper>
