@@ -204,4 +204,33 @@
     WHERE open_id=#{openId}
     And order_no=#{orderNo}
   </select>
+  <select id="checkOrderByDOpenIdOrderNo" resultType="java.lang.Integer" parameterType="map">
+    SELECT count(1)
+    FROM  gotodo_order
+    WHERE dopen_id=#{dopenId}
+    And order_no=#{orderNo}
+  </select>
+
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="integer">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  status=#{status}
+  </select>
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="integer">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  open_id=#{openId}
+  </select>
+  <select id="selectByDOpenId" resultMap="BaseResultMap" parameterType="integer">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  duser_id=#{dopenId}
+  </select>
+
+  <select id="selectByTypeStatus" resultMap="BaseResultMap" parameterType="integer">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  order_type=#{type}
+    AND status=#{status}
+  </select>
 </mapper>

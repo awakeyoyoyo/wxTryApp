@@ -105,4 +105,26 @@
       charge_times = #{chargeTimes,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="ReduceUserCrediByuserId" parameterType="integer">
+    UPDATE gorodo_credit
+    SET user_credit=user_credit-1
+    WHERE open_id=#{userId}
+  </update>
+  <update id="addCancelByuserId">
+     UPDATE gorodo_credit
+    SET cancel_times=cancel_times+1
+    WHERE open_id=#{userId}
+  </update>
+  <update id="addChargeByuserId">
+    UPDATE gorodo_credit
+    SET charge_times=chagre_times+1
+    WHERE open_id=#{userId}
+  </update>
+  <update id="addOrderByuserId">
+    UPDATE gorodo_credit
+    SET order_times=order_times+1
+    WHERE open_id=#{userId}
+  </update>
+
+
 </mapper>

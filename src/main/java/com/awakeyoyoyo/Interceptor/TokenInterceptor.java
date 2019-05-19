@@ -1,10 +1,12 @@
 package com.awakeyoyoyo.Interceptor;
 
 import com.awakeyoyoyo.common.ServerResponse;
+import com.awakeyoyoyo.dao.UserMapper;
 import com.awakeyoyoyo.service.IUserService;
 import com.awakeyoyoyo.utils.JWTUtils;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,7 +16,8 @@ import java.io.PrintWriter;
 
 
 public class TokenInterceptor implements HandlerInterceptor {
-    private IUserService iUserService;
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         //表头中拿token
@@ -26,9 +29,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             String openid=claims.get("openid",String.class);
             if (null!=openid){
                 //查询数据库
-                //todo
-            int rowcount=1;
-                    //iUserService.checkOpenId();
+            int rowcount=userMapper.checkByPrimaryKey(Integer.parseInt(openid));
             if (rowcount>=1){
                 httpServletRequest.setAttribute("openid",openid);
                 return true;

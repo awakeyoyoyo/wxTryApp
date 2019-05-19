@@ -50,7 +50,7 @@ public class ShippingController {
     @RequestMapping(value = "/lists",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse<PageInfo> select(Integer openId,
+    public ServerResponse<PageInfo> lists(Integer openId,
                                            @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                            @RequestParam(value = "pageSize",defaultValue = "3")int pageSize){
         return shippingService.selectByOpenId(openId,pageNum,pageSize);
@@ -59,7 +59,7 @@ public class ShippingController {
     @RequestMapping(value = "/mainShipping",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse select(Integer openId){
+    public ServerResponse mainShipping(Integer openId){
         return shippingService.selectMainShippingByopenId(openId);
     }
 }

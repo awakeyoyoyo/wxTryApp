@@ -15,9 +15,9 @@ public class OrderItem {
 
     private String expressPwd;
 
-    private byte[] productMxg;
+    private String productMxg;
 
-    public OrderItem(Integer id, Integer openId, Long orderNo, String expressSize, String expressName, String expressPhone, String expressPwd, byte[] productMxg) {
+    public OrderItem(Integer id, Integer openId, Long orderNo, String expressSize, String expressName, String expressPhone, String expressPwd, String productMxg) {
         this.id = id;
         this.openId = openId;
         this.orderNo = orderNo;
@@ -88,11 +88,11 @@ public class OrderItem {
         this.expressPwd = expressPwd == null ? null : expressPwd.trim();
     }
 
-    public byte[] getProductMxg() {
+    public String getProductMxg() {
         return productMxg;
     }
 
-    public void setProductMxg(byte[] productMxg) {
-        this.productMxg = productMxg;
+    public void setProductMxg(String productMxg) {
+        this.productMxg = productMxg == null ? null : productMxg.trim();
     }
 }

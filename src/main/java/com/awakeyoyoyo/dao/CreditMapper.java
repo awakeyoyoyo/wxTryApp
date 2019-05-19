@@ -14,4 +14,9 @@ public interface CreditMapper {
     int updateByPrimaryKeySelective(Credit record);
 
     int updateByPrimaryKey(Credit record);
+    int ReduceUserCrediByuserId(Integer userId);
+    int addCancelByuserId(Integer userId);
+    int addChargeByuserId(Integer userId);
+    int addOrderByuserId(Integer userId);
+
 }

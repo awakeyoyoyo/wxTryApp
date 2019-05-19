@@ -192,9 +192,10 @@
     FROM gotodo_user
     WHERE open_id=#{openId}
   </select>
-  <select id="checkByPrimaryKey">
+  <select id="checkByPrimaryKey" resultType="java.lang.Integer">
     SELECT count(1)
     FROM  gotodo_user
     WHERE open_id=#{openId}
   </select>
+
 </mapper>

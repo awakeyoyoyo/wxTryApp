@@ -42,8 +42,8 @@ public class OrderController {
 
     @RequestMapping("/cancel.do")
     @ResponseBody
-    public ServerResponse cancelOrder(Long orderNo,Integer openId){
-        return iOrderService.cancelOrder(orderNo, openId);
+    public ServerResponse cancelOrder(Long orderNo,Integer openId,Integer who){
+        return iOrderService.cancelOrder(orderNo,openId,who);
     }
 
     @RequestMapping("/lists")
@@ -57,5 +57,10 @@ public class OrderController {
     @ResponseBody
     public ServerResponse orderItemlists(Integer openId,Long orderNo){
         return iOrderService.orderItemlists(openId,orderNo);
+    }
+    @RequestMapping("/finish")
+    @ResponseBody
+    public ServerResponse orderFinish(Integer openId,Long orderNo){
+        return iOrderService.orderFinish(openId,orderNo);
     }
 }

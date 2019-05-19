@@ -1,15 +1,13 @@
 package com.awakeyoyoyo.common;
 
-public enum OrderStatusCode {
-    UnAccept(0,"未被接单"),
-    IsAccept(1,"已被接单"),
-    Canceled(2,"已取消订单"),
-    ObverLate(3,"订单超过时间"),
-    FINLISH(4,"订单完成");
+public enum UserSexCode {
+    NOSEE(0,"未知"),
+    MAN(1,"男"),
+    WOMEN(2,"女");
 
     private final int code;
     private final String desc;
-    OrderStatusCode (int code,String desc){
+    UserSexCode (int code,String desc){
         this.code=code;
         this.desc=desc;
     }

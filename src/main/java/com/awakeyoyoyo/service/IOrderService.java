@@ -8,12 +8,14 @@ public interface IOrderService {
     //新建订单
     ServerResponse add(OrderVo orderVo);
     //接单
-    ServerResponse acceptOrder(Long orderNo,Integer duserId);
+    ServerResponse acceptOrder(Long orderNo,Integer dopenId);
     //取消订单
-     ServerResponse cancelOrder(Long orderNo,Integer userId);
+     ServerResponse cancelOrder(Long orderNo,Integer openId,Integer who);
      //订单列表
      ServerResponse lists(int pageNum,int pageSize,String type,String str);
      //产品信息
-    ServerResponse orderItemlists(Integer userId,Long orderNo);
+    ServerResponse orderItemlists(Integer openId,Long orderNo);
+
+    ServerResponse orderFinish(Integer openId,Long orderNo);
 
 }
