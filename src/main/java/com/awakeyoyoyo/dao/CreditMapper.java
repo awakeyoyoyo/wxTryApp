@@ -2,6 +2,8 @@ package com.awakeyoyoyo.dao;
 
 import com.awakeyoyoyo.entity.Credit;
 
+import java.util.List;
+
 public interface CreditMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -19,4 +21,7 @@ public interface CreditMapper {
     int addChargeByuserId(Integer userId);
     int addOrderByuserId(Integer userId);
 
+    Credit selectByOpenId(Integer openId);
+
+    List<Credit> selectAll();
 }

@@ -8,4 +8,6 @@ public interface IUserService {
     ServerResponse login(String js_code, WxUserVo userVo);
     ServerResponse getInformation(Integer openId);
     ServerResponse updateInformation(User user);
+
+    ServerResponse ggUser(Integer openId);
 }

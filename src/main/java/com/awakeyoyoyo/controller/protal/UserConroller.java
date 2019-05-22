@@ -33,4 +33,11 @@ public class UserConroller {
     public ServerResponse updateInformation(User user){
         return userService.updateInformation(user);
     }
+
+    //冻结用户
+    @RequestMapping(value = "/gg.do")
+    @ResponseBody
+    public ServerResponse ggUser(Integer openId){
+        return userService.ggUser(openId);
+    }
 }

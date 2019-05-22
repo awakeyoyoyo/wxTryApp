@@ -2,6 +2,7 @@ package com.awakeyoyoyo.service.impl;
 
 import com.awakeyoyoyo.common.ServerResponse;
 import com.awakeyoyoyo.common.UserSexCode;
+import com.awakeyoyoyo.common.UserStatusCode;
 import com.awakeyoyoyo.dao.CreditMapper;
 import com.awakeyoyoyo.dao.UserMapper;
 import com.awakeyoyoyo.entity.Credit;
@@ -88,5 +89,20 @@ public class UserServiceImpl implements IUserService {
            return ServerResponse.createByErrorMessage("更新信息失败");
        }
        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse ggUser(Integer openId) {
+        if (openId==null||userMapper.checkByPrimaryKey(openId)<=0){
+            return ServerResponse.createByErrorMessage("传入错误参数或为传参");
+        }
+        User user=new User();
+        user.setOpenId(openId);
+        user.setUserStatus(UserStatusCode.FREEZE.getCode());
+        if (userMapper.updateByPrimaryKeySelective(user)<=0)
+        {
+            return ServerResponse.createByErrorMessage("冻结用户失败");
+        }
+        return ServerResponse.createBySuccess();
     }
 }

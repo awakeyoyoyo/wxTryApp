@@ -56,10 +56,18 @@ public class ShippingController {
         return shippingService.selectByOpenId(openId,pageNum,pageSize);
     }
 
-    @RequestMapping(value = "/mainShipping",
+    @RequestMapping(value = "/getMainShipping",
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public ServerResponse mainShipping(Integer openId){
+    public ServerResponse getMainShipping(Integer openId){
         return shippingService.selectMainShippingByopenId(openId);
+    }
+
+    @RequestMapping(value = "/setMainShipping",
+            produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public ServerResponse setMainShipping(Integer openId,Integer shippingId){
+
+        return shippingService.upadateMainShippingByopenId(openId,shippingId);
     }
 }

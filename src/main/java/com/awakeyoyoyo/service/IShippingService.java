@@ -18,4 +18,6 @@ public interface IShippingService {
     ServerResponse selectByOpenIdShippingId(Integer openId, Integer shippingId);
 
     ServerResponse selectMainShippingByopenId(Integer openId);
+
+    ServerResponse upadateMainShippingByopenId(Integer openId, Integer shippingId);
 }

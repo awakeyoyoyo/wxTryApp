@@ -4,6 +4,7 @@ import com.awakeyoyoyo.common.ServerResponse;
 import com.awakeyoyoyo.dao.ShippingMapper;
 import com.awakeyoyoyo.dao.UserMapper;
 import com.awakeyoyoyo.entity.Shipping;
+import com.awakeyoyoyo.entity.User;
 import com.awakeyoyoyo.service.IShippingService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -63,11 +64,28 @@ public class ShippingServiceImpl implements IShippingService {
 
     @Override
     public ServerResponse selectMainShippingByopenId(Integer openId) {
+        if(openId==null||userMapper.checkByPrimaryKey(openId)<=0){
+            return ServerResponse.createByErrorMessage("没有此用户");
+        }
         Integer shippingId=userMapper.selectMainShippingIdByopenId(openId);
         if (shippingId==null){
            return ServerResponse.createBySuccess();
         }
         Shipping shipping=shippingMapper.selectByPrimaryKey(shippingId);
         return ServerResponse.createBySuccess(shipping);
+    }
+
+    @Override
+    public ServerResponse upadateMainShippingByopenId(Integer openId, Integer shippingId) {
+        if(openId==null||userMapper.checkByPrimaryKey(openId)<=0){
+            return ServerResponse.createByErrorMessage("没有此用户");
+        }
+        User user=new User();
+        user.setOpenId(openId);
+        user.setUserShippingid(shippingId);
+        if (userMapper.updateByPrimaryKeySelective(user)>=1){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByErrorMessage("更新主地址失败");
     }
 }
