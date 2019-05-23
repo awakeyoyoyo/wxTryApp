@@ -45,6 +45,8 @@
                 <mvc:mapping path="/**"/>
                 <!--/login 不需要拦截-->
                 <mvc:exclude-mapping path="/User/login.do"/>
+                <!--<mvc:exclude-mapping path="/WEB-INF/views/Listcheck.jsp"/>-->
+                <!--<mvc:exclude-mapping path="/Order/gogogo"/>-->
                 <bean class="com.awakeyoyoyo.Interceptor.TokenInterceptor"> </bean>
             </mvc:interceptor>
         <mvc:interceptor>
@@ -53,6 +55,8 @@
             <!--/login 不需要拦截-->
             <mvc:exclude-mapping path="/Order/lists"/>
             <mvc:exclude-mapping path="/Order/orderItems"/>
+            <!--<mvc:exclude-mapping path="/Order/gogogo"/>-->
+            <mvc:exclude-mapping path="/swagger-ui.html"/>
             <bean class="com.awakeyoyoyo.Interceptor.UserdoInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
@@ -61,6 +65,15 @@
     1.加入对静态资源的处理：js，gif，png
     2.允许使用"/"做整体映射   -->
     <mvc:default-servlet-handler/>
+    <!-- 向容器自动注入配置 -->
+    <!--<context:annotation-config/>-->
+    <!-- 将SwaggerConfig配置类注入 -->
+    <!--<bean class="com.awakeyoyoyo.Swagger.SwaggerConfig"/>-->
+    <!-- 配置swagger资源不被拦截 -->
+    <!--添加swagger配置-->
+    <!--<bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" id="swagger2Config"/>-->
+    <!--<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>-->
+    <!--<mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>-->
 
     <!-- 配置jsp 显示ViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

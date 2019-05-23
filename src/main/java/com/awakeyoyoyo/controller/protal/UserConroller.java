@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/User")
 public class UserConroller {
@@ -18,26 +20,27 @@ public class UserConroller {
 
     @RequestMapping(value = "/login.do")
     @ResponseBody
-    public ServerResponse login(String js_code, WxUserVo wxUserVo){
-        return userService.login(js_code,wxUserVo);
+    public ServerResponse login(HttpServletRequest request,String js_code, WxUserVo wxUserVo){
+        String token=request.getHeader("token");
+        return userService.login(js_code,wxUserVo,token);
     }
 
     @RequestMapping(value = "/information.do")
     @ResponseBody
-    public ServerResponse information(Integer openId){
+    public ServerResponse information(HttpServletRequest request){
+
+        String openId=(String) request.getAttribute("openId");
         return userService.getInformation(openId);
     }
 
     @RequestMapping(value = "/update.do")
     @ResponseBody
-    public ServerResponse updateInformation(User user){
+    public ServerResponse updateInformation(HttpServletRequest request,User user){
+        String openId=(String) request.getAttribute("openId");
+        user.setOpenId(openId);
         return userService.updateInformation(user);
     }
 
     //冻结用户
-    @RequestMapping(value = "/gg.do")
-    @ResponseBody
-    public ServerResponse ggUser(Integer openId){
-        return userService.ggUser(openId);
-    }
+
 }

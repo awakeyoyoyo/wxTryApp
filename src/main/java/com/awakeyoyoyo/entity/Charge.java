@@ -5,20 +5,23 @@ import java.util.Date;
 public class Charge {
     private Integer id;
 
-    private Integer openId;
+    private String openId;
 
-    private Integer dpoenId;
+    private String dpoenId;
 
     private String chargeMxg;
 
     private Date createTime;
 
-    public Charge(Integer id, Integer openId, Integer dpoenId, String chargeMxg, Date createTime) {
+    private Integer status;
+
+    public Charge(Integer id, String openId, String dpoenId, String chargeMxg, Date createTime, Integer status) {
         this.id = id;
         this.openId = openId;
         this.dpoenId = dpoenId;
         this.chargeMxg = chargeMxg;
         this.createTime = createTime;
+        this.status = status;
     }
 
     public Charge() {
@@ -33,20 +36,20 @@ public class Charge {
         this.id = id;
     }
 
-    public Integer getOpenId() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenId(Integer openId) {
-        this.openId = openId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
-    public Integer getDpoenId() {
+    public String getDpoenId() {
         return dpoenId;
     }
 
-    public void setDpoenId(Integer dpoenId) {
-        this.dpoenId = dpoenId;
+    public void setDpoenId(String dpoenId) {
+        this.dpoenId = dpoenId == null ? null : dpoenId.trim();
     }
 
     public String getChargeMxg() {
@@ -63,5 +66,13 @@ public class Charge {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -5,9 +5,9 @@ import com.awakeyoyoyo.entity.User;
 import com.awakeyoyoyo.vo.WxUserVo;
 
 public interface IUserService {
-    ServerResponse login(String js_code, WxUserVo userVo);
-    ServerResponse getInformation(Integer openId);
+    ServerResponse login(String js_code, WxUserVo userVo,String token);
+    ServerResponse getInformation(String openId);
     ServerResponse updateInformation(User user);
 
-    ServerResponse ggUser(Integer openId);
+    ServerResponse ggUser(String openId);
 }

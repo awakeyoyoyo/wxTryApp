@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Credit">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_credit" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="order_times" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="cencal_times" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -25,11 +25,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.Credit">
-    insert into gotodo_credit (id, open_id, user_credit, 
-      order_times, cencal_times, charge_times
+    insert into gotodo_credit (id, open_id
       )
-    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{userCredit,jdbcType=INTEGER}, 
-      #{orderTimes,jdbcType=INTEGER}, #{cencalTimes,jdbcType=INTEGER}, #{chargeTimes,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Credit">
@@ -59,7 +57,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="openId != null">
-        #{openId,jdbcType=INTEGER},
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="userCredit != null">
         #{userCredit,jdbcType=INTEGER},
@@ -79,7 +77,7 @@
     update gotodo_credit
     <set>
       <if test="openId != null">
-        open_id = #{openId,jdbcType=INTEGER},
+        open_id = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="userCredit != null">
         user_credit = #{userCredit,jdbcType=INTEGER},
@@ -98,41 +96,52 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Credit">
     update gotodo_credit
-    set open_id = #{openId,jdbcType=INTEGER},
+    set open_id = #{openId,jdbcType=VARCHAR},
       user_credit = #{userCredit,jdbcType=INTEGER},
       order_times = #{orderTimes,jdbcType=INTEGER},
       cencal_times = #{cencalTimes,jdbcType=INTEGER},
       charge_times = #{chargeTimes,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="ReduceUserCrediByuserId" parameterType="integer">
+
+  <update id="ReduceUserCrediByuserId" parameterType="string">
     UPDATE gotodo_credit
     SET user_credit=user_credit-1
     WHERE open_id=#{userId}
   </update>
-  <update id="addCancelByuserId">
-     UPDATE gotodo_credit
+  <update id="addUserCreditByuserId" parameterType="string">
+    UPDATE  gotodo_credit
+    SET user_credit=user_creidt+1
+    WHERE open_id=#{userId}
+
+  </update>
+  <update id="addCancelByuserId"  parameterType="string">
+    UPDATE gotodo_credit
     SET cancel_times=cancel_times+1
     WHERE open_id=#{userId}
   </update>
-  <update id="addChargeByuserId">
+  <update id="addChargeByuserId"  parameterType="string">
     UPDATE gotodo_credit
     SET charge_times=chagre_times+1
     WHERE open_id=#{userId}
   </update>
-  <update id="addOrderByuserId">
+  <update id="addOrderByuserId"  parameterType="string">
     UPDATE gotodo_credit
     SET order_times=order_times+1
     WHERE open_id=#{userId}
   </update>
-  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="integer">
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="string">
     SELECT <include refid="Base_Column_List"></include>
     FROM gotodo_credit
     WHERE open_id=#{openId}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" parameterType="integer">
+  <select id="selectAll" resultMap="BaseResultMap" >
     SELECT <include refid="Base_Column_List"></include>
     FROM gotodo_credit
   </select>
-
+  <select id="selectByOpenID" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM gotodo_credit
+    WHERE open_id=#{openId}
+  </select>
 </mapper>

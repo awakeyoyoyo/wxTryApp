@@ -28,8 +28,7 @@ public class UserdoInterceptor implements HandlerInterceptor {
         String openid=Request.getParameter("openid");
         //数据库查询用户状态
         //查询用户信息是否完整
-        //todo
-        User user=userMapper.selectByPrimaryKey(Integer.parseInt(openid));
+        User user=userMapper.selectByPrimaryKey(openid);
         //iUserService.checkUserStatus(openid);
 //        if (openid!=null&&iUserService.checkUserStatus(openid)){
 //            return true;

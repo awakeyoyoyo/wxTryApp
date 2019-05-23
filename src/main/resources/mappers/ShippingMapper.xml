@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.Shipping">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="receiver_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="receiver_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="receiver_place" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
     insert into gotodo_shipping (id, open_id, receiver_name, 
       receiver_phone, receiver_place, receiver_dormitory
       )
-    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
       #{receiverPhone,jdbcType=VARCHAR}, #{receiverPlace,jdbcType=VARCHAR}, #{receiverDormitory,jdbcType=VARCHAR}
       )
   </insert>
@@ -59,7 +59,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="openId != null">
-        #{openId,jdbcType=INTEGER},
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="receiverName != null">
         #{receiverName,jdbcType=VARCHAR},
@@ -79,7 +79,7 @@
     update gotodo_shipping
     <set>
       <if test="openId != null">
-        open_id = #{openId,jdbcType=INTEGER},
+        open_id = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="receiverName != null">
         receiver_name = #{receiverName,jdbcType=VARCHAR},
@@ -98,13 +98,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.Shipping">
     update gotodo_shipping
-    set open_id = #{openId,jdbcType=INTEGER},
+    set open_id = #{openId,jdbcType=VARCHAR},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
       receiver_place = #{receiverPlace,jdbcType=VARCHAR},
       receiver_dormitory = #{receiverDormitory,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <delete id="deleteByOpenIdShippingId" parameterType="map">
     DELETE FROM gotodo_shipping
     WHERE open_id=#{openId} AND id=#{shippingId}
@@ -120,4 +121,5 @@
     FROM  gotodo_shipping
     WHERE open_id=#{userId} AND id=#{shippingId}
   </select>
+
 </mapper>

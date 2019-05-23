@@ -3,7 +3,7 @@ package com.awakeyoyoyo.entity;
 public class OrderItem {
     private Integer id;
 
-    private Integer openId;
+    private String openId;
 
     private Long orderNo;
 
@@ -17,7 +17,7 @@ public class OrderItem {
 
     private String productMxg;
 
-    public OrderItem(Integer id, Integer openId, Long orderNo, String expressSize, String expressName, String expressPhone, String expressPwd, String productMxg) {
+    public OrderItem(Integer id, String openId, Long orderNo, String expressSize, String expressName, String expressPhone, String expressPwd, String productMxg) {
         this.id = id;
         this.openId = openId;
         this.orderNo = orderNo;
@@ -40,12 +40,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Integer getOpenId() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenId(Integer openId) {
-        this.openId = openId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public Long getOrderNo() {

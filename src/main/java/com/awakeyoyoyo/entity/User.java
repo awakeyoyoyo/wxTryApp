@@ -1,7 +1,7 @@
 package com.awakeyoyoyo.entity;
 
 public class User {
-    private Integer openId;
+    private String openId;
 
     private String userPhone;
 
@@ -27,7 +27,7 @@ public class User {
 
     private Integer userShippingid;
 
-    public User(Integer openId, String userPhone, String userName, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory, String userWx, Integer userStatus, Integer userShippingid) {
+    public User(String openId, String userPhone, String userName, Integer userType, Integer userNumber, String userSex, String userCollege, String userProfession, String userBuilding, String userDomitory, String userWx, Integer userStatus, Integer userShippingid) {
         this.openId = openId;
         this.userPhone = userPhone;
         this.userName = userName;
@@ -47,12 +47,12 @@ public class User {
         super();
     }
 
-    public Integer getOpenId() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenId(Integer openId) {
-        this.openId = openId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public String getUserPhone() {

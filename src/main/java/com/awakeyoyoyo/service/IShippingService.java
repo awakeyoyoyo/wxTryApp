@@ -7,17 +7,17 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 public interface IShippingService {
-    ServerResponse add(Integer openId, Shipping shipping);
+    ServerResponse add(String openId, Shipping shipping);
 
-    ServerResponse delete(Integer openId, Integer shippingId);
+    ServerResponse delete(String openId, Integer shippingId);
 
     ServerResponse update(Shipping shipping);
 
-    ServerResponse<PageInfo> selectByOpenId(Integer openId,int pageNum,int pageSize);
+    ServerResponse<PageInfo> selectByOpenId(String openId,int pageNum,int pageSize);
 
-    ServerResponse selectByOpenIdShippingId(Integer openId, Integer shippingId);
+    ServerResponse selectByOpenIdShippingId(String openId, Integer shippingId);
 
-    ServerResponse selectMainShippingByopenId(Integer openId);
+    ServerResponse selectMainShippingByopenId(String openId);
 
-    ServerResponse upadateMainShippingByopenId(Integer openId, Integer shippingId);
+    ServerResponse upadateMainShippingByopenId(String openId, Integer shippingId);
 }

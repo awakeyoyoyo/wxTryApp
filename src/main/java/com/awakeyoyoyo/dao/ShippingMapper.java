@@ -17,10 +17,7 @@ public interface ShippingMapper {
     int updateByPrimaryKeySelective(Shipping record);
 
     int updateByPrimaryKey(Shipping record);
-
-    int deleteByOpenIdShippingId(@Param("openId") Integer openId,@Param("shippingId") Integer shippingId);
-
-    List<Shipping> selectByOpenId(Integer openId);
-
-    Shipping selectByOpenIdShippingId (@Param("openId") Integer openId,@Param("shippingId") Integer shippingId);
+    int deleteByOpenIdShippingId(@Param("openId") String openId, @Param("shippingId") int shippingId);
+    List<Shipping> selectByOpenId(String shippingId);
+    Shipping selectByOpenIdShippingId(@Param("openId")String openId,@Param("shippingId") int shippingId);
 }

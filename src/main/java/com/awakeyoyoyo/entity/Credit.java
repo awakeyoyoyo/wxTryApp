@@ -3,7 +3,7 @@ package com.awakeyoyoyo.entity;
 public class Credit {
     private Integer id;
 
-    private Integer openId;
+    private String openId;
 
     private Integer userCredit;
 
@@ -13,7 +13,7 @@ public class Credit {
 
     private Integer chargeTimes;
 
-    public Credit(Integer id, Integer openId, Integer userCredit, Integer orderTimes, Integer cencalTimes, Integer chargeTimes) {
+    public Credit(Integer id, String openId, Integer userCredit, Integer orderTimes, Integer cencalTimes, Integer chargeTimes) {
         this.id = id;
         this.openId = openId;
         this.userCredit = userCredit;
@@ -34,12 +34,12 @@ public class Credit {
         this.id = id;
     }
 
-    public Integer getOpenId() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenId(Integer openId) {
-        this.openId = openId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public Integer getUserCredit() {

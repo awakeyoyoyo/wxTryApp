@@ -10,6 +10,8 @@
         http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!--spring开启扫描 ，将含注解的bean注入spring容器-->
     <context:component-scan base-package="com.awakeyoyoyo.service" annotation-config="true"/>
+
+
     <!-- 配置数据库相关参数properties的属性：${url} -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <!-- 数据库连接池 -->

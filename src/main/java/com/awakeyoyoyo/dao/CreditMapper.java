@@ -16,12 +16,12 @@ public interface CreditMapper {
     int updateByPrimaryKeySelective(Credit record);
 
     int updateByPrimaryKey(Credit record);
-    int ReduceUserCrediByuserId(Integer userId);
-    int addCancelByuserId(Integer userId);
-    int addChargeByuserId(Integer userId);
-    int addOrderByuserId(Integer userId);
-
-    Credit selectByOpenId(Integer openId);
-
+    int ReduceUserCrediByuserId(String userId);
+    int addUserCreditByuserId(String userId);
+    int addCancelByuserId (String userId);
+    int addChargeByuserId(String userId);
+    int addOrderByuserId(String userId);
+    Credit selectByOpenId(String openId);
     List<Credit> selectAll();
+    int selectByOpenID(String openId);
 }

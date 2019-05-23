@@ -17,9 +17,11 @@ import java.util.List;
 public class ShippingServiceImpl implements IShippingService {
     @Autowired
     private ShippingMapper shippingMapper;
+    @Autowired
     private UserMapper userMapper;
     @Override
-    public ServerResponse add(Integer openId, Shipping shipping) {
+    public ServerResponse add(String openId, Shipping shipping) {
+        System.out.println(openId);
        shipping.setOpenId(openId);
        int rowcount=shippingMapper.insert(shipping);
        if (rowcount>0){
@@ -29,7 +31,7 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse delete(Integer openId, Integer shippingId) {
+    public ServerResponse delete(String openId, Integer shippingId) {
         int rowcount=shippingMapper.deleteByOpenIdShippingId(openId,shippingId);
         if (rowcount>0){
             return ServerResponse.createBySuccess();
@@ -49,7 +51,7 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse<PageInfo> selectByOpenId(Integer openId,int pageNum,int pageSize) {
+    public ServerResponse<PageInfo> selectByOpenId(String openId,int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Shipping> shippingList=shippingMapper.selectByOpenId(openId);
         PageInfo pageInfo=new PageInfo(shippingList);
@@ -57,13 +59,13 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse selectByOpenIdShippingId(Integer openId, Integer shippingId) {
+    public ServerResponse selectByOpenIdShippingId(String openId, Integer shippingId) {
         Shipping shipping=shippingMapper.selectByOpenIdShippingId(openId,shippingId);
        return  ServerResponse.createBySuccess(shipping);
     }
 
     @Override
-    public ServerResponse selectMainShippingByopenId(Integer openId) {
+    public ServerResponse selectMainShippingByopenId(String openId) {
         if(openId==null||userMapper.checkByPrimaryKey(openId)<=0){
             return ServerResponse.createByErrorMessage("没有此用户");
         }
@@ -72,11 +74,14 @@ public class ShippingServiceImpl implements IShippingService {
            return ServerResponse.createBySuccess();
         }
         Shipping shipping=shippingMapper.selectByPrimaryKey(shippingId);
+//        if (shipping==null){
+//            return ServerResponse.createBySuccess();
+//        }
         return ServerResponse.createBySuccess(shipping);
     }
 
     @Override
-    public ServerResponse upadateMainShippingByopenId(Integer openId, Integer shippingId) {
+    public ServerResponse upadateMainShippingByopenId(String openId, Integer shippingId) {
         if(openId==null||userMapper.checkByPrimaryKey(openId)<=0){
             return ServerResponse.createByErrorMessage("没有此用户");
         }

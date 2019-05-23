@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 
@@ -26,23 +27,27 @@ public class OrderController {
 
     @RequestMapping("/create.do")
     @ResponseBody
-    public ServerResponse createOrder(@RequestBody OrderVo orderVo){
+    public ServerResponse createOrder(@RequestBody OrderVo orderVo,HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        orderVo.setUserId(openId);
         return iOrderService.add(orderVo);
     }
 
-//    @RequestMapping("/gogogo")
-//    public String sss(){
-//        return "Listcheck";
-//    }
+    @RequestMapping("/gogogo")
+    public String sss(){
+        return "Listcheck";
+    }
     @RequestMapping("/accept.do")
     @ResponseBody
-    public ServerResponse acceptOrder(Long orderNo,Integer dopenId){
+    public ServerResponse acceptOrder(Long orderNo,HttpServletRequest request){
+        String dopenId=(String) request.getAttribute("openId");
         return iOrderService.acceptOrder(orderNo, dopenId);
     }
 
     @RequestMapping("/cancel.do")
     @ResponseBody
-    public ServerResponse cancelOrder(Long orderNo,Integer openId,Integer who){
+    public ServerResponse cancelOrder(Long orderNo, HttpServletRequest request, Integer who){
+        String openId=(String) request.getAttribute("openId");
         return iOrderService.cancelOrder(orderNo,openId,who);
     }
 
@@ -50,17 +55,20 @@ public class OrderController {
     @ResponseBody
     public ServerResponse<PageInfo> lists(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                           @RequestParam(value = "pageSize",defaultValue = "3")int pageSize,
-                                          String type, String str){
-        return iOrderService.lists(pageNum,pageSize,type,str);
+                                          String type, String str,HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.lists(pageNum,pageSize,type,str,openId);
     }
     @RequestMapping("/orderItems")
     @ResponseBody
-    public ServerResponse orderItemlists(Integer openId,Long orderNo){
+    public ServerResponse orderItemlists(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
         return iOrderService.orderItemlists(openId,orderNo);
     }
     @RequestMapping("/finish")
     @ResponseBody
-    public ServerResponse orderFinish(Integer openId,Long orderNo){
+    public ServerResponse orderFinish(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
         return iOrderService.orderFinish(openId,orderNo);
     }
 }
