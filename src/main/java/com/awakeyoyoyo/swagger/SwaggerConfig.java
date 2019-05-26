@@ -22,9 +22,5 @@ public class SwaggerConfig {
                 .build();
     }
 
-    @Bean
-    public RequestMappingInfoHandlerMapping requestMapping() {
-        return new RequestMappingHandlerMapping();
-    }
 
 }
