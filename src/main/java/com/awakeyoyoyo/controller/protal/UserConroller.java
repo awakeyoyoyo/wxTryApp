@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +22,15 @@ public class UserConroller {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/login.do")
+    @RequestMapping(value = "/login.do",method = RequestMethod.POST)
     @ResponseBody
 //    @ApiOperation(value = "测试专用")
-    public ServerResponse login(String js_code, WxUserVo wxUserVo,HttpServletRequest request){
+    public ServerResponse login(String js_code,HttpServletRequest request){
         String token=request.getHeader("token");
-        return userService.login(js_code,wxUserVo,token);
+        return userService.login(js_code,token);
     }
 
-    @RequestMapping(value = "/information.do")
+    @RequestMapping(value = "/information.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse information(HttpServletRequest request){
 
@@ -37,7 +38,7 @@ public class UserConroller {
         return userService.getInformation(openId);
     }
 
-    @RequestMapping(value = "/update.do")
+    @RequestMapping(value = "/update.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse updateInformation(HttpServletRequest request,User user){
         String openId=(String) request.getAttribute("openId");

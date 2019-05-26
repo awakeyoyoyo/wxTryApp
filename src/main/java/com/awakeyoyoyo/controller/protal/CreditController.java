@@ -7,6 +7,7 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +21,7 @@ public class CreditController {
     @Autowired
     private ICreditService creditService;
 
-    @RequestMapping("/getPersonCredit")
+    @RequestMapping(value = "/getPersonCredit",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse getPersonCredit(HttpServletRequest request){
         String openId=(String) request.getAttribute("openId");
@@ -30,7 +31,7 @@ public class CreditController {
         return creditService.getPersonCredit(openId);
     }
     //获取所有人所有credit信息
-    @RequestMapping("/getAllCredit")
+    @RequestMapping(value = "/getAllCredit",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<PageInfo> getAllCredit(
             @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
@@ -38,7 +39,7 @@ public class CreditController {
         return creditService.getAllCredit(pageNum,pageSize);
     }
     //好评
-    @RequestMapping("/estimate")
+    @RequestMapping(value = "/estimate",method =RequestMethod.POST)
     @ResponseBody
     public ServerResponse estimatedo(HttpServletRequest request,String dopenId,String estimatedo_code,Long orderNo,String mxg){
         String openId=(String) request.getAttribute("openId");

@@ -51,11 +51,10 @@ public class ShippingServiceImpl implements IShippingService {
     }
 
     @Override
-    public ServerResponse<PageInfo> selectByOpenId(String openId,int pageNum,int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public ServerResponse selectByOpenId(String openId) {
         List<Shipping> shippingList=shippingMapper.selectByOpenId(openId);
-        PageInfo pageInfo=new PageInfo(shippingList);
-        return ServerResponse.createBySuccess(pageInfo);
+
+        return ServerResponse.createBySuccess(shippingList);
     }
 
     @Override

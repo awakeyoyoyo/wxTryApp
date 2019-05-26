@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,7 +22,7 @@ public class ShippingController {
 
 
     @RequestMapping(value = "/add.do",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse add( HttpServletRequest request, Shipping shipping){
         String openId=(String) request.getAttribute("openId");
@@ -29,7 +30,7 @@ public class ShippingController {
     }
 
     @RequestMapping(value = "/delete.do",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse delete(HttpServletRequest request, Integer shippingId){
         String openId=(String) request.getAttribute("openId");
@@ -37,7 +38,7 @@ public class ShippingController {
     }
 
     @RequestMapping(value = "/update.do",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse update( HttpServletRequest request,Shipping shipping){
         String openId=(String) request.getAttribute("openId");
@@ -46,7 +47,7 @@ public class ShippingController {
     }
 
     @RequestMapping(value = "/select.do",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse select(HttpServletRequest request, Integer shippingId)
     {   String openId=(String) request.getAttribute("openId");
@@ -54,17 +55,15 @@ public class ShippingController {
     }
 
     @RequestMapping(value = "/lists",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<PageInfo> lists(HttpServletRequest request,
-                                           @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
-                                           @RequestParam(value = "pageSize",defaultValue = "3")int pageSize){
+    public ServerResponse lists(HttpServletRequest request){
         String openId=(String) request.getAttribute("openId");
-        return shippingService.selectByOpenId(openId,pageNum,pageSize);
+        return shippingService.selectByOpenId(openId);
     }
 
     @RequestMapping(value = "/getMainShipping",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse getMainShipping(HttpServletRequest request){
         String openId=(String) request.getAttribute("openId");
@@ -73,7 +72,7 @@ public class ShippingController {
     }
 
     @RequestMapping(value = "/setMainShipping",
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse setMainShipping(HttpServletRequest request,Integer shippingId){
         String openId=(String) request.getAttribute("openId");

@@ -32,9 +32,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private AdviceMapper adviceMapper;
     @Override
-    public ServerResponse login(String js_code, WxUserVo userVo,String token1) {
-        System.out.println("nick="+userVo.getNickName());
-        System.out.println("sex="+userVo.getGender());
+    public ServerResponse login(String js_code,String token1) {
+//        System.out.println("nick="+userVo.getNickName());
+//        System.out.println("sex="+userVo.getGender());
         if (null!=token1) {
             //解析token
             Claims claims = null;
@@ -69,18 +69,18 @@ public class UserServiceImpl implements IUserService {
             User user=new User();
             user.setOpenId(openId);
             //微信的一些数据
-            user.setUserName(userVo.getNickName());
-            switch(userVo.getGender()){
-                case 0 :
-                    user.setUserSex(UserSexCode.NOSEE.getDesc());
-                    break; //可选
-                case 1 :
-                    user.setUserSex(UserSexCode.MAN.getDesc());
-                    break; //可选
-                case 2 :
-                    user.setUserSex(UserSexCode.WOMEN.getDesc());
-                    break; //可选
-            }
+//            user.setUserName(userVo.getNickName());
+//            switch(userVo.getGender()){
+//                case 0 :
+//                    user.setUserSex(UserSexCode.NOSEE.getDesc());
+//                    break; //可选
+//                case 1 :
+//                    user.setUserSex(UserSexCode.MAN.getDesc());
+//                    break; //可选
+//                case 2 :
+//                    user.setUserSex(UserSexCode.WOMEN.getDesc());
+//                    break; //可选
+//            }
             userMapper.insert(user);
             Credit credit=new Credit();
             credit.setOpenId(openId);

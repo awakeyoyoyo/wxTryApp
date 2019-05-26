@@ -5,7 +5,7 @@ import com.awakeyoyoyo.entity.User;
 import com.awakeyoyoyo.vo.WxUserVo;
 
 public interface IUserService {
-    ServerResponse login(String js_code, WxUserVo userVo,String token);
+    ServerResponse login(String js_code,String token);
     ServerResponse getInformation(String openId);
     ServerResponse updateInformation(User user);
 

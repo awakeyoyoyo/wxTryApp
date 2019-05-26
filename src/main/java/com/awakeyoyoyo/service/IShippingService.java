@@ -13,7 +13,7 @@ public interface IShippingService {
 
     ServerResponse update(Shipping shipping);
 
-    ServerResponse<PageInfo> selectByOpenId(String openId,int pageNum,int pageSize);
+    ServerResponse selectByOpenId(String openId);
 
     ServerResponse selectByOpenIdShippingId(String openId, Integer shippingId);
 

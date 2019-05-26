@@ -13,6 +13,7 @@ import com.awakeyoyoyo.utils.DateUtils;
 import com.awakeyoyoyo.vo.OrderVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.models.auth.In;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -173,8 +174,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public ServerResponse<PageInfo> lists(int pageNum, int pageSize,String type,String str,String openId) {
-        PageHelper.startPage(pageNum,pageSize);
+    public ServerResponse lists(String type,String str,String openId) {
       //获取全部订单list
         if (type==null){
         List<Order> orderList=orderMapper.selectByStatus(OrderStatusCode.UnAccept.getCode());
@@ -194,7 +194,6 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createBySuccess(pageInfo);
         }
         if (type.equals("type")){
-
             switch (Integer.parseInt(str)){
                 case Const.OrderType.QUJIAN:
                     str=OrderTypeCode.QUJIAN.getDesc();
@@ -222,8 +221,7 @@ public class OrderServiceImpl implements IOrderService {
                     break;
             }
             List<Order> orderList=orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode());
-            PageInfo pageInfo=new PageInfo(orderList);
-            return ServerResponse.createBySuccess(pageInfo);
+            return ServerResponse.createBySuccess(orderList);
         }
         return ServerResponse.createByErrorMessage("获取订单信息失败");
     }
@@ -270,6 +268,41 @@ public class OrderServiceImpl implements IOrderService {
         order.setOpenId(openId);
         orderMapper.updateByPrimaryKeySelective(order);
         return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse alllists(Integer type_code) {
+            String str=null;
+        switch (type_code) {
+            case Const.OrderType.QUJIAN:
+                str = OrderTypeCode.QUJIAN.getDesc();
+                break;
+            case Const.OrderType.YAOPING:
+                str = OrderTypeCode.YAOPING.getDesc();
+                break;
+            case Const.OrderType.PAOTUI:
+                str = OrderTypeCode.PAOTUI.getDesc();
+                break;
+            case Const.OrderType.CHAOSHI:
+                str = OrderTypeCode.CHAOSHI.getDesc();
+                break;
+            case Const.OrderType.MEISHI:
+                str = OrderTypeCode.MEISHI.getDesc();
+                break;
+            case Const.OrderType.YINPING:
+                str = OrderTypeCode.YINPING.getDesc();
+                break;
+            case Const.OrderType.SHUIGUO:
+                str = OrderTypeCode.SHUIGUO.getDesc();
+                break;
+            case Const.OrderType.GAODIAN:
+                str = OrderTypeCode.GAODIAN.getDesc();
+                break;
+        }
+        if (str==null){
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+        return ServerResponse.createBySuccess(orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode()));
     }
 
     public Long getOrderIdByTime(String openId) {

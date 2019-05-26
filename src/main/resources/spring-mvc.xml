@@ -45,8 +45,10 @@
                 <mvc:mapping path="/**"/>
                 <!--/login 不需要拦截-->
                 <mvc:exclude-mapping path="/User/login.do"/>
-                <!--<mvc:exclude-mapping path="/WEB-INF/views/Listcheck.jsp"/>-->
-                <mvc:exclude-mapping path="/Order/gogogo"/>
+                <mvc:exclude-mapping path="/v2/**"/><!-- swagger静态资源-->
+                <mvc:exclude-mapping path="/swagger-ui.html#!/**"/><!-- swagger静态资源-->
+                <mvc:exclude-mapping path="/swagger-resources/**"/><!-- swagger静态资源-->
+                <mvc:exclude-mapping path="/Order/alllists"/>
                 <bean class="com.awakeyoyoyo.Interceptor.TokenInterceptor"> </bean>
             </mvc:interceptor>
         <mvc:interceptor>
