@@ -1,4 +1,4 @@
-package com.awakeyoyoyo.Swagger;
+package com.awakeyoyoyo.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2 //Loads the spring beans required by the framework
-public class swaggerConfig {
+public class SwaggerConfig {
     @Bean
     public Docket userApi() {
         return new Docket(DocumentationType.SWAGGER_2)

@@ -68,7 +68,6 @@
     <!-- 向容器自动注入配置 -->
     <!--<context:annotation-config/>-->
     <!-- 将SwaggerConfig配置类注入 -->
-    <bean class="com.awakeyoyoyo.Swagger.swaggerConfig"/>
     <!-- 配置swagger资源不被拦截 -->
     <!--添加swagger配置-->
     <bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" id="swagger2Config"/>
