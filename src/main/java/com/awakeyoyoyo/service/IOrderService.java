@@ -18,4 +18,5 @@ public interface IOrderService {
 
     ServerResponse orderFinish(String openId,Long orderNo);
 
+    ServerResponse orderAddTime(String openId, Long orderNo);
 }

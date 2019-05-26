@@ -260,6 +260,18 @@ public class OrderServiceImpl implements IOrderService {
         return  ServerResponse.createBySuccess();
     }
 
+    @Override
+    public ServerResponse orderAddTime(String openId, Long orderNo) {
+        Order order=new Order();
+        long currentTime = System.currentTimeMillis() + 30 * 60 * 1000;
+        Date date = new Date(currentTime);
+        order.setOverTime(date);
+        order.setOrderNo(orderNo);
+        order.setOpenId(openId);
+        orderMapper.updateByPrimaryKeySelective(order);
+        return ServerResponse.createBySuccess();
+    }
+
     public Long getOrderIdByTime(String openId) {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHH");
         String newDate=sdf.format(new Date());

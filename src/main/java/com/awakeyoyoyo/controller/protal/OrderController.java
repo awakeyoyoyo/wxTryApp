@@ -71,4 +71,10 @@ public class OrderController {
         String openId=(String) request.getAttribute("openId");
         return iOrderService.orderFinish(openId,orderNo);
     }
+    @RequestMapping("/orderAddTime")
+    @ResponseBody
+    public ServerResponse orderAddTime(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.orderAddTime(openId,orderNo);
+    }
 }

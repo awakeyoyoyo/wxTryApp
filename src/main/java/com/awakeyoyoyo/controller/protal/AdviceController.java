@@ -1,13 +1,10 @@
 package com.awakeyoyoyo.controller.protal;
 import com.awakeyoyoyo.common.ServerResponse;
 import com.awakeyoyoyo.service.IAdviceService;
-import com.awakeyoyoyo.service.impl.AdviceServiceImpl;
-import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +53,7 @@ public class AdviceController {
     //已阅读
     @RequestMapping("/oldAdvice.do")
     @ResponseBody
-    public ServerResponse oldAdvice(Integer ids[]){
+    public ServerResponse oldAdvice(@RequestParam (value = "ids[]") Integer[] ids){
         if (ids==null){
             return ServerResponse.createByErrorMessage("未传入ids");
         }

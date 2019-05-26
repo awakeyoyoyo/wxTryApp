@@ -5,6 +5,8 @@ import com.awakeyoyoyo.entity.User;
 import com.awakeyoyoyo.service.IUserService;
 import com.awakeyoyoyo.service.IWxService;
 import com.awakeyoyoyo.vo.WxUserVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/User")
+//@Api(value = "restful", description = "测试")
 public class UserConroller {
     @Autowired
     private IUserService userService;
 
     @RequestMapping(value = "/login.do")
     @ResponseBody
-    public ServerResponse login(HttpServletRequest request,String js_code, WxUserVo wxUserVo){
+//    @ApiOperation(value = "测试专用")
+    public ServerResponse login(String js_code, WxUserVo wxUserVo,HttpServletRequest request){
         String token=request.getHeader("token");
         return userService.login(js_code,wxUserVo,token);
     }

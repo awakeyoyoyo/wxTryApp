@@ -33,6 +33,8 @@ public class UserServiceImpl implements IUserService {
     private AdviceMapper adviceMapper;
     @Override
     public ServerResponse login(String js_code, WxUserVo userVo,String token1) {
+        System.out.println("nick="+userVo.getNickName());
+        System.out.println("sex="+userVo.getGender());
         if (null!=token1) {
             //解析token
             Claims claims = null;
@@ -55,12 +57,12 @@ public class UserServiceImpl implements IUserService {
         //http请求去wx后台
 
         Map<String,String> result=wxService.Wxlogin(js_code);
-        if (result.get("openid")==null||result.get("openid").isEmpty()){
-            ServerResponse.createByErrorMessage("登陆失败重新打开");
+        if (result.get("open_id")==null||result.get("open_id").isEmpty()){
+           return ServerResponse.createByErrorMessage("登陆失败重新打开");
         }
         //返回一个openid
-        System.out.println("openid="+result.get("openid"));
-        String openId=result.get("openid");
+        System.out.println("openid="+result.get("open_id"));
+        String openId=result.get("open_id");
         //入k库
         if (userMapper.selectByPrimaryKey(openId)==null)
         {
@@ -90,7 +92,7 @@ public class UserServiceImpl implements IUserService {
         //token
         String token="";
         try {
-            token=JWTUtils.createJWT(result.get("openid"), Constant.JWT_TTL);
+            token=JWTUtils.createJWT(result.get("open_id"), Constant.JWT_TTL);
         } catch (Exception e) {
             ServerResponse.createByErrorMessage("生成Token失败");
             e.printStackTrace();

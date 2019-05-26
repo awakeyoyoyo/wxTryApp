@@ -49,6 +49,7 @@ public class JWTUtils {
 
         // 创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         Map<String, Object> claims = new HashMap<>();
+        System.out.println("jwt:openid="+open_id);
         claims.put("open_id", open_id);
 
         // 生成签名的时候使用的秘钥secret，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。
