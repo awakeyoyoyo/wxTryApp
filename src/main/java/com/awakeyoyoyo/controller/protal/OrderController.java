@@ -10,11 +10,9 @@ import com.awakeyoyoyo.vo.OrderVo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 
@@ -24,38 +22,62 @@ public class OrderController {
     @Autowired
     private IOrderService iOrderService;
 
-    @RequestMapping("/create.do")
+    @RequestMapping(value = "/create.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse createOrder(@RequestBody OrderVo orderVo){
+    public ServerResponse createOrder(@RequestBody OrderVo orderVo,HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        orderVo.setUserId(openId);
         return iOrderService.add(orderVo);
     }
 
-//    @RequestMapping("/gogogo")
+//    @RequestMapping(value = "/gogogo",m)
 //    public String sss(){
 //        return "Listcheck";
 //    }
-    @RequestMapping("/accept.do")
+    @RequestMapping(value = "/accept.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse acceptOrder(Long orderNo,Integer dopenId){
+    public ServerResponse acceptOrder(Long orderNo,HttpServletRequest request){
+        String dopenId=(String) request.getAttribute("openId");
         return iOrderService.acceptOrder(orderNo, dopenId);
     }
 
-    @RequestMapping("/cancel.do")
+    @RequestMapping(value = "/cancel.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse cancelOrder(Long orderNo,Integer openId){
-        return iOrderService.cancelOrder(orderNo, openId);
+    public ServerResponse cancelOrder(Long orderNo, HttpServletRequest request, Integer who){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.cancelOrder(orderNo,openId,who);
     }
 
-    @RequestMapping("/lists")
+    @RequestMapping(value = "/lists",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<PageInfo> lists(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
-                                          @RequestParam(value = "pageSize",defaultValue = "3")int pageSize,
-                                          String type, String str){
-        return iOrderService.lists(pageNum,pageSize,type,str);
+    public ServerResponse lists(
+                                          String type, String str,HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.lists(type,str,openId);
     }
-    @RequestMapping("/orderItems")
+
+    @RequestMapping(value = "/alllists",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse orderItemlists(Integer openId,Long orderNo){
+    public ServerResponse allllists(Integer type_code){
+        return iOrderService.alllists(type_code);
+    }
+
+    @RequestMapping(value = "/orderItems",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse orderItemlists(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
         return iOrderService.orderItemlists(openId,orderNo);
+    }
+    @RequestMapping(value = "/finish",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse orderFinish(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.orderFinish(openId,orderNo);
+    }
+    @RequestMapping(value = "/orderAddTime",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse orderAddTime(HttpServletRequest request,Long orderNo){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.orderAddTime(openId,orderNo);
     }
 }

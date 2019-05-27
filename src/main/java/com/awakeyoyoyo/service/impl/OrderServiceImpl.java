@@ -1,15 +1,11 @@
 package com.awakeyoyoyo.service.impl;
 
-import com.awakeyoyoyo.common.OrderStatusCode;
-import com.awakeyoyoyo.common.ServerResponse;
-import com.awakeyoyoyo.dao.OrderItemMapper;
+import com.awakeyoyoyo.common.*;
 
-import com.awakeyoyoyo.dao.OrderMapper;
-import com.awakeyoyoyo.dao.UserMapper;
+import com.awakeyoyoyo.dao.*;
 
 
-import com.awakeyoyoyo.entity.Order;
-import com.awakeyoyoyo.entity.OrderItem;
+import com.awakeyoyoyo.entity.*;
 
 
 import com.awakeyoyoyo.service.IOrderService;
@@ -17,6 +13,8 @@ import com.awakeyoyoyo.utils.DateUtils;
 import com.awakeyoyoyo.vo.OrderVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.models.auth.In;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+
+
 @Service("iOrderService")
 public class OrderServiceImpl implements IOrderService {
     @Autowired
@@ -34,6 +34,10 @@ public class OrderServiceImpl implements IOrderService {
     private OrderMapper orderMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CreditMapper creditMapper;
+    @Autowired
+    private AdviceMapper adviceMapper;
     @Override
     public ServerResponse add(OrderVo orderVo) {
         if (orderVo.getOrderItemList().isEmpty()){
@@ -41,6 +45,9 @@ public class OrderServiceImpl implements IOrderService {
         }
         if (orderVo.getUserId()==null){
             return  ServerResponse.createByErrorMessage("没传入用户id");
+        }
+        if (orderVo.getShippingId()==null){
+            return  ServerResponse.createByErrorMessage("没传入收货地址");
         }
         //新建订单号
         Long orderNo=getOrderIdByTime(orderVo.getUserId());
@@ -78,7 +85,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public ServerResponse acceptOrder(Long orderNo, Integer dopenId) {
+    public ServerResponse acceptOrder(Long orderNo, String dopenId) {
         //检测用户是否存在以及是否含有权力
         int rowcount=userMapper.checkByPrimaryKey(dopenId);
         if (rowcount<=0){
@@ -106,30 +113,68 @@ public class OrderServiceImpl implements IOrderService {
         if (rowcount<=0){
             return ServerResponse.createByErrorMessage("接单失败");
         }
+        User user=userMapper.selectByPrimaryKey(dopenId);
+        //通知订单被接单了
+        Order order1 =orderMapper.selectByPrimaryKey(orderNo);
+        Advice advice=new Advice();
+        advice.setCreateTime(new Date());
+        advice.setAdviceMxg("您的订单:"+order.getOrderNo()+"+被接单了");
+        advice.setOpenId(order1.getOpenId());
+        adviceMapper.insertSelective(advice);
         return ServerResponse.createBySuccess();
     }
 
     @Override
-    public ServerResponse cancelOrder(Long orderNo, Integer openId) {
+    public ServerResponse cancelOrder(Long orderNo, String userId,Integer who) {
+        if (who== UserTypeCode.USER.getCode()) {
+            //用户取消自己发布的单
+            int rowcount = orderMapper.checkOrderByOpenIdOrderNo(userId, orderNo);
+            if (rowcount <= 0) {
+                return ServerResponse.createByErrorMessage("传错误参数");
+            }
+            Order order = new Order();
+            order.setStatus(OrderStatusCode.Canceled.getCode());
+            order.setOrderNo(orderNo);
+            rowcount = orderMapper.updateByPrimaryKeySelective(order);
+            if (rowcount <= 0) {
+                return ServerResponse.createByErrorMessage("取消订单失败");
+            }
+            /*用户的取消订单数+1 不管他是接单还是发布的那个且,用户信用分数-1*/
+            //减信用分
+            creditMapper.ReduceUserCrediByuserId(userId);
+            //加强制取消订单次数
+            creditMapper.addCancelByuserId(userId);
+        }
+        if (who==UserTypeCode.DUSER.getCode()){
+            int rowcount = orderMapper.checkOrderByDOpenIdOrderNo(userId, orderNo);
+            if (rowcount <= 0) {
+                return ServerResponse.createByErrorMessage("传错误参数");
+            }
+            Order order = new Order();
+            order.setStatus(OrderStatusCode.Canceled.getCode());
+            order.setOrderNo(orderNo);
+            rowcount = orderMapper.updateByPrimaryKeySelective(order);
+            if (rowcount <= 0) {
+                return ServerResponse.createByErrorMessage("取消订单失败");
+            }
+            //用户的取消订单数+1 不管他是接单还是发布的那个且
+            creditMapper.ReduceUserCrediByuserId(userId);
+            //加强制取消订单次数
+            creditMapper.addCancelByuserId(userId);
+            //通知订单被取消了
+            Order order1 =orderMapper.selectByPrimaryKey(orderNo);
+            Advice advice=new Advice();
+            advice.setCreateTime(new Date());
+            advice.setAdviceMxg("您的订单:"+order.getOrderNo()+"被强制取消了");
+            advice.setOpenId(order1.getOpenId());
+            adviceMapper.insertSelective(advice);
+        }
 
-        int rowcount=orderMapper.checkOrderByOpenIdOrderNo(openId, orderNo);
-        if (rowcount<=0){
-            return ServerResponse.createByErrorMessage("传错误参数");
-        }
-        Order order=new Order();
-        order.setStatus(OrderStatusCode.Canceled.getCode());
-        order.setOrderNo(orderNo);
-        rowcount=orderMapper.updateByPrimaryKeySelective(order);
-        if (rowcount<=0){
-            return ServerResponse.createByErrorMessage("取消订单失败");
-        }
-        /*用户的取消订单数+1 不管他是接单还是发布的那个且//todo*/
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createByErrorMessage("传入错误参数");
     }
 
     @Override
-    public ServerResponse<PageInfo> lists(int pageNum, int pageSize,String type,String str) {
-        PageHelper.startPage(pageNum,pageSize);
+    public ServerResponse lists(String type,String str,String openId) {
       //获取全部订单list
         if (type==null){
         List<Order> orderList=orderMapper.selectByStatus(OrderStatusCode.UnAccept.getCode());
@@ -138,27 +183,52 @@ public class OrderServiceImpl implements IOrderService {
         }
         //获取该用户的订单
         if (type.equals("user")){
-            List<Order> orderList=orderMapper.selectByUserId(Integer.parseInt(str));
+            List<Order> orderList=orderMapper.selectByOpenId(openId);
             PageInfo pageInfo=new PageInfo(orderList);
             return ServerResponse.createBySuccess(pageInfo);
         }
         //获取该用户所接的单
         if (type.equals("duser")){
-            List<Order> orderList=orderMapper.selectByDUserId(Integer.parseInt(str));
+            List<Order> orderList=orderMapper.selectByDOpenId(openId);
             PageInfo pageInfo=new PageInfo(orderList);
             return ServerResponse.createBySuccess(pageInfo);
         }
         if (type.equals("type")){
-            List<Order> orderList=orderMapper.selectByType(Integer.parseInt(str));
-            PageInfo pageInfo=new PageInfo(orderList);
-            return ServerResponse.createBySuccess(pageInfo);
+            switch (Integer.parseInt(str)){
+                case Const.OrderType.QUJIAN:
+                    str=OrderTypeCode.QUJIAN.getDesc();
+                    break;
+                case Const.OrderType.YAOPING:
+                    str=OrderTypeCode.YAOPING.getDesc();
+                    break;
+                case Const.OrderType.PAOTUI:
+                    str=OrderTypeCode.PAOTUI.getDesc();
+                    break;
+                case Const.OrderType.CHAOSHI:
+                    str=OrderTypeCode.CHAOSHI.getDesc();
+                    break;
+                case Const.OrderType.MEISHI:
+                    str=OrderTypeCode.MEISHI.getDesc();
+                    break;
+                case Const.OrderType.YINPING:
+                    str=OrderTypeCode.YINPING.getDesc();
+                    break;
+                case Const.OrderType.SHUIGUO:
+                    str=OrderTypeCode.SHUIGUO.getDesc();
+                    break;
+                case Const.OrderType.GAODIAN:
+                    str=OrderTypeCode.GAODIAN.getDesc();
+                    break;
+            }
+            List<Order> orderList=orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode());
+            return ServerResponse.createBySuccess(orderList);
         }
         return ServerResponse.createByErrorMessage("获取订单信息失败");
     }
 
     @Override
-    public ServerResponse orderItemlists(Integer openId,Long orderNo) {
-       int rowcount= orderMapper.checkOrderByUserIdOrderNo(openId,orderNo);
+    public ServerResponse orderItemlists(String openId,Long orderNo) {
+       int rowcount= orderMapper.checkOrderByOpenIdOrderNo(openId,orderNo);
        if (rowcount<=0){
            return ServerResponse.createByErrorMessage("没有该订单");
        }
@@ -169,7 +239,73 @@ public class OrderServiceImpl implements IOrderService {
      return   ServerResponse.createBySuccess(orderItems);
     }
 
-    public Long getOrderIdByTime(Integer openId) {
+    @Override
+    public ServerResponse orderFinish(String openId, Long orderNo) {
+        int rowcount= orderMapper.checkOrderByOpenIdOrderNo(openId,orderNo);
+        if (rowcount<=0){
+            return ServerResponse.createByErrorMessage("没有该订单");
+        }
+        Order order=new Order();
+        order.setOpenId(openId);
+        order.setOrderNo(orderNo);
+        order.setStatus(OrderStatusCode.FINLISH.getCode());
+        orderMapper.updateByPrimaryKeySelective(order);
+
+        //完成订单数++++
+        order =orderMapper.selectByPrimaryKey(orderNo);
+        creditMapper.addOrderByuserId(order.getDuserId());
+        creditMapper.addOrderByuserId(order.getOpenId());
+        return  ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse orderAddTime(String openId, Long orderNo) {
+        Order order=new Order();
+        long currentTime = System.currentTimeMillis() + 30 * 60 * 1000;
+        Date date = new Date(currentTime);
+        order.setOverTime(date);
+        order.setOrderNo(orderNo);
+        order.setOpenId(openId);
+        orderMapper.updateByPrimaryKeySelective(order);
+        return ServerResponse.createBySuccess();
+    }
+
+    @Override
+    public ServerResponse alllists(Integer type_code) {
+            String str=null;
+        switch (type_code) {
+            case Const.OrderType.QUJIAN:
+                str = OrderTypeCode.QUJIAN.getDesc();
+                break;
+            case Const.OrderType.YAOPING:
+                str = OrderTypeCode.YAOPING.getDesc();
+                break;
+            case Const.OrderType.PAOTUI:
+                str = OrderTypeCode.PAOTUI.getDesc();
+                break;
+            case Const.OrderType.CHAOSHI:
+                str = OrderTypeCode.CHAOSHI.getDesc();
+                break;
+            case Const.OrderType.MEISHI:
+                str = OrderTypeCode.MEISHI.getDesc();
+                break;
+            case Const.OrderType.YINPING:
+                str = OrderTypeCode.YINPING.getDesc();
+                break;
+            case Const.OrderType.SHUIGUO:
+                str = OrderTypeCode.SHUIGUO.getDesc();
+                break;
+            case Const.OrderType.GAODIAN:
+                str = OrderTypeCode.GAODIAN.getDesc();
+                break;
+        }
+        if (str==null){
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+        return ServerResponse.createBySuccess(orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode()));
+    }
+
+    public Long getOrderIdByTime(String openId) {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHH");
         String newDate=sdf.format(new Date());
         String result="";

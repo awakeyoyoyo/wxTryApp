@@ -19,17 +19,19 @@
         var orderVo = {};
         orderVo.orderItemList=orderitem;
         orderVo.shippingId=100;
-        orderVo.userId=10001;
         orderVo.price=3;
         orderVo.takeAddress="海三肠粉店";
         orderVo.orderType=1;
         orderVo.overTime="2017-6-3 20:10:20"
-        orderVo.orderMxg="请该块兄弟"
+        orderVo.orderMxg="请赶快兄弟"
 
         $.ajax({
             url: "/order/create.do",
             type: "POST",
             contentType : 'application/json;charset=utf-8', //设置请求头信息
+            headers: {
+                'token':'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3eGFwcCIsIm9wZW5faWQiOiJvckZ3NzZQQmhCLXpxUHZ4QmZuaTB0R24xdXJFIiwiZXhwIjoxNTU4Njk2MzQ0LCJpYXQiOjE1NTg2MDk5NDR9.akY893IWdQQn-VVTbzvF7nvfEcb6EfdVXjtUNTXDn8Q'
+            },
             dataType:"json",
             data: JSON.stringify(orderVo),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
             //data: $.toJSON(customerArray),

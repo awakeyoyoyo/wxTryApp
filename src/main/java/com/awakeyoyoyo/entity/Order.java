@@ -18,11 +18,11 @@ public class Order {
 
     private Date successTime;
 
-    private Integer openId;
+    private String openId;
 
     private Date overTime;
 
-    private Integer duserId;
+    private String duserId;
 
     private BigDecimal price;
 
@@ -32,7 +32,7 @@ public class Order {
 
     private String orderType;
 
-    public Order(Long orderNo, Integer shippingId, Integer status, Date acceptTime, Date endTime, Date createTime, Date successTime, Integer openId, Date overTime, Integer duserId, BigDecimal price, String orderMxg, String takeAddress, String orderType) {
+    public Order(Long orderNo, Integer shippingId, Integer status, Date acceptTime, Date endTime, Date createTime, Date successTime, String openId, Date overTime, String duserId, BigDecimal price, String orderMxg, String takeAddress, String orderType) {
         this.orderNo = orderNo;
         this.shippingId = shippingId;
         this.status = status;
@@ -109,12 +109,12 @@ public class Order {
         this.successTime = successTime;
     }
 
-    public Integer getOpenId() {
+    public String getOpenId() {
         return openId;
     }
 
-    public void setOpenId(Integer openId) {
-        this.openId = openId;
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 
     public Date getOverTime() {
@@ -125,12 +125,12 @@ public class Order {
         this.overTime = overTime;
     }
 
-    public Integer getDuserId() {
+    public String getDuserId() {
         return duserId;
     }
 
-    public void setDuserId(Integer duserId) {
-        this.duserId = duserId;
+    public void setDuserId(String duserId) {
+        this.duserId = duserId == null ? null : duserId.trim();
     }
 
     public BigDecimal getPrice() {

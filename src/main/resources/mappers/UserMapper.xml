@@ -3,7 +3,7 @@
 <mapper namespace="com.awakeyoyoyo.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.awakeyoyoyo.entity.User">
     <constructor>
-      <idArg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <idArg column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -22,26 +22,26 @@
     open_id, user_phone, user_name, user_type, user_number, user_sex, user_college, user_profession, 
     user_building, user_domitory, user_wx, user_status, user_shippingid
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from gotodo_user
-    where open_id = #{openId,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from gotodo_user
-    where open_id = #{openId,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.awakeyoyoyo.entity.User">
     insert into gotodo_user (open_id, user_phone, user_name, 
       user_type, user_number, user_sex, 
       user_college, user_profession, user_building, 
-      user_domitory, user_wx, user_status, 
+      user_domitory, user_wx,
       user_shippingid)
-    values (#{openId,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+    values (#{openId,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{userType,jdbcType=INTEGER}, #{userNumber,jdbcType=INTEGER}, #{userSex,jdbcType=VARCHAR}, 
       #{userCollege,jdbcType=VARCHAR}, #{userProfession,jdbcType=VARCHAR}, #{userBuilding,jdbcType=VARCHAR}, 
-      #{userDomitory,jdbcType=VARCHAR}, #{userWx,jdbcType=VARCHAR}, #{userStatus,jdbcType=INTEGER}, 
+      #{userDomitory,jdbcType=VARCHAR}, #{userWx,jdbcType=VARCHAR},
       #{userShippingid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.User">
@@ -89,7 +89,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="openId != null">
-        #{openId,jdbcType=INTEGER},
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="userPhone != null">
         #{userPhone,jdbcType=VARCHAR},
@@ -169,7 +169,7 @@
         user_shippingid = #{userShippingid,jdbcType=INTEGER},
       </if>
     </set>
-    where open_id = #{openId,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awakeyoyoyo.entity.User">
     update gotodo_user
@@ -185,14 +185,15 @@
       user_wx = #{userWx,jdbcType=VARCHAR},
       user_status = #{userStatus,jdbcType=INTEGER},
       user_shippingid = #{userShippingid,jdbcType=INTEGER}
-    where open_id = #{openId,jdbcType=INTEGER}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </update>
-  <select id="selectMainShippingIdByopenId" parameterType="integer" resultType="integer">
+
+  <select id="selectMainShippingIdByopenId" parameterType="string" resultType="java.lang.Integer">
     SELECT user_shippingid
     FROM gotodo_user
     WHERE open_id=#{openId}
   </select>
-  <select id="checkByPrimaryKey">
+  <select id="checkByPrimaryKey" resultType="java.lang.Integer">
     SELECT count(1)
     FROM  gotodo_user
     WHERE open_id=#{openId}

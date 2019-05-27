@@ -16,9 +16,9 @@ public class OrderVo {
 
     private Integer status;
 
-    private Integer userId;
+    private String userId;
 
-    private Integer duserId;
+    private String duserId;
 
     private BigDecimal price;
 
@@ -58,19 +58,19 @@ public class OrderVo {
         this.status = status;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public Integer getDuserId() {
+    public String getDuserId() {
         return duserId;
     }
 
-    public void setDuserId(Integer duserId) {
+    public void setDuserId(String duserId) {
         this.duserId = duserId;
     }
 

@@ -10,9 +10,9 @@
       <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="success_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="open_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="over_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="duser_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="duser_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="order_mxg" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="take_address" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -41,8 +41,8 @@
       take_address, order_type)
     values (#{orderNo,jdbcType=BIGINT}, #{shippingId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{acceptTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{successTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=INTEGER}, #{overTime,jdbcType=TIMESTAMP}, 
-      #{duserId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{orderMxg,jdbcType=VARCHAR}, 
+      #{successTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}, #{overTime,jdbcType=TIMESTAMP}, 
+      #{duserId,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{orderMxg,jdbcType=VARCHAR}, 
       #{takeAddress,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.awakeyoyoyo.entity.Order">
@@ -114,13 +114,13 @@
         #{successTime,jdbcType=TIMESTAMP},
       </if>
       <if test="openId != null">
-        #{openId,jdbcType=INTEGER},
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="overTime != null">
         #{overTime,jdbcType=TIMESTAMP},
       </if>
       <if test="duserId != null">
-        #{duserId,jdbcType=INTEGER},
+        #{duserId,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -158,13 +158,13 @@
         success_time = #{successTime,jdbcType=TIMESTAMP},
       </if>
       <if test="openId != null">
-        open_id = #{openId,jdbcType=INTEGER},
+        open_id = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="overTime != null">
         over_time = #{overTime,jdbcType=TIMESTAMP},
       </if>
       <if test="duserId != null">
-        duser_id = #{duserId,jdbcType=INTEGER},
+        duser_id = #{duserId,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -189,19 +189,56 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       success_time = #{successTime,jdbcType=TIMESTAMP},
-      open_id = #{openId,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR},
       over_time = #{overTime,jdbcType=TIMESTAMP},
-      duser_id = #{duserId,jdbcType=INTEGER},
+      duser_id = #{duserId,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       order_mxg = #{orderMxg,jdbcType=VARCHAR},
       take_address = #{takeAddress,jdbcType=VARCHAR},
       order_type = #{orderType,jdbcType=VARCHAR}
     where order_no = #{orderNo,jdbcType=BIGINT}
   </update>
+
   <select id="checkOrderByOpenIdOrderNo" resultType="java.lang.Integer" parameterType="map">
     SELECT count(1)
     FROM  gotodo_order
     WHERE open_id=#{openId}
     And order_no=#{orderNo}
+  </select>
+  <select id="checkOrderByDOpenIdOrderNo" resultType="java.lang.Integer" parameterType="map">
+    SELECT count(1)
+    FROM  gotodo_order
+    WHERE dopen_id=#{dopenId}
+    And order_no=#{orderNo}
+  </select>
+
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="string">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  status=#{status}
+  </select>
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="string">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  open_id=#{openId}
+  </select>
+  <select id="selectByDOpenId" resultMap="BaseResultMap" parameterType="string">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  duser_id=#{dopenId}
+  </select>
+
+  <select id="selectByTypeStatus" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM  gotodo_order
+    WHERE  order_type=#{type}
+    AND status=#{status}
+  </select>
+  <select id="checkOrderByOpenIdOrderNoDopenId" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM gotodo_order
+    WHERE order_no=#{orderNo}
+    AND open_id=#{openId}
+    AND dopen_id=#{dopenId}
   </select>
 </mapper>
