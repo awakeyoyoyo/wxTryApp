@@ -27,10 +27,13 @@ public class OrderController {
     public ServerResponse createOrder(@RequestBody OrderVo orderVo,HttpServletRequest request){
         String openId=(String) request.getAttribute("openId");
         orderVo.setUserId(openId);
+        if (orderVo==null){
+            return ServerResponse.createByErrorMessage("没有传入参数");
+        }
         return iOrderService.add(orderVo);
     }
 
-//    @RequestMapping(value = "/gogogo",m)
+//    @RequestMapping(value = "/gogogo")
 //    public String sss(){
 //        return "Listcheck";
 //    }

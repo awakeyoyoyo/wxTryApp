@@ -21,7 +21,7 @@
         orderVo.shippingId=100;
         orderVo.price=3;
         orderVo.takeAddress="海三肠粉店";
-        orderVo.orderType=1;
+        orderVo.orderType="美食";
         orderVo.overTime="2017-6-3 20:10:20"
         orderVo.orderMxg="请赶快兄弟"
 
@@ -30,7 +30,7 @@
             type: "POST",
             contentType : 'application/json;charset=utf-8', //设置请求头信息
             headers: {
-                'token':'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3eGFwcCIsIm9wZW5faWQiOiJvckZ3NzZQQmhCLXpxUHZ4QmZuaTB0R24xdXJFIiwiZXhwIjoxNTU4Njk2MzQ0LCJpYXQiOjE1NTg2MDk5NDR9.akY893IWdQQn-VVTbzvF7nvfEcb6EfdVXjtUNTXDn8Q'
+                'token':'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3eGFwcCIsIm9wZW5faWQiOiJvSnIzUzVOYWMwYXc4dTBtWXQwaVh1QlZlYmhrIiwiZXhwIjoxNTU5MDM5ODkxLCJpYXQiOjE1NTg5NTM0OTF9.2FVrydIVh8s6y5sx_dknyKV10AAXIlLRGO1Utr6WW5g'
             },
             dataType:"json",
             data: JSON.stringify(orderVo),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
@@ -44,7 +44,7 @@
                 console.log(res.responseText);
             }
         });
-        alert("okk");
+        console.JSON.stringify(orderVo);
     }
 </script>
 <head>
