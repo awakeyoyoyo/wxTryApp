@@ -22,4 +22,6 @@ public interface IOrderService {
     ServerResponse orderAddTime(String openId, Long orderNo);
 
     ServerResponse alllists(Integer type_code);
+
+    ServerResponse getOrder(Long orderNo, String openId);
 }

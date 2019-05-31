@@ -50,6 +50,12 @@ public class OrderController {
         String openId=(String) request.getAttribute("openId");
         return iOrderService.cancelOrder(orderNo,openId,who);
     }
+    @RequestMapping(value = "/getOrder.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getOrder(Long orderNo, HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.getOrder(orderNo,openId);
+    }
 
     @RequestMapping(value = "/lists",method = RequestMethod.GET)
     @ResponseBody

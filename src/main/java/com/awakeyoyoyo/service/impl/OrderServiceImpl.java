@@ -82,7 +82,7 @@ public class OrderServiceImpl implements IOrderService {
         if (rowcount<=0){
             return ServerResponse.createByErrorMessage("新建订单失败");
         }
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createBySuccess(order);
     }
 
     @Override
@@ -304,6 +304,18 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createByErrorMessage("参数错误");
         }
         return ServerResponse.createBySuccess(orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode()));
+    }
+
+    @Override
+    public ServerResponse getOrder(Long orderNo, String openId) {
+        if (orderMapper.checkOrderByOpenIdOrderNo(openId,orderNo)>0){
+            Order order=orderMapper.selectByPrimaryKey(orderNo);
+            return ServerResponse.createBySuccess(order);
+        }
+        else {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
     }
 
     public Long getOrderIdByTime() {
