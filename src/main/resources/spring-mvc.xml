@@ -10,7 +10,7 @@
 
     <!-- 扫描web相关的bean -->
     <context:component-scan base-package="com.awakeyoyoyo.controller"/>
-
+    <context:component-scan base-package="com.awakeyoyoyo.swagger"></context:component-scan>
     <!--1:开启springmvc的注解模式-->
     <!--简化配置：
      (1)自动注册defaultAnnottionHandlerMapping,An   nottionHandlerAdapeter
@@ -49,19 +49,23 @@
                 <mvc:exclude-mapping path="/v2/**"/><!-- swagger静态资源-->
                 <mvc:exclude-mapping path="/swagger-ui.html/**"/><!-- swagger静态资源-->
                 <mvc:exclude-mapping path="/swagger-resources/**"/><!-- swagger静态资源-->
-                <mvc:exclude-mapping path="/Order/alllists"/>
+                <mvc:exclude-mapping path="/order/alllists"/>
+                <!--<mvc:exclude-mapping path="/Order/gogogo"/>-->
+                <!--<mvc:exclude-mapping path="/WEB-INF/views/Listcheck.jsp"/>-->
                 <bean class="com.awakeyoyoyo.Interceptor.TokenInterceptor"> </bean>
             </mvc:interceptor>
         <mvc:interceptor>
-            <!--匹配的是url路径，如果不匹配或者/**，将拦截所有的Controller-->
-            <mvc:mapping path="/Order/*"/>
-            <!--/login 不需要拦截-->
-            <mvc:exclude-mapping path="/Order/lists"/>
-            <mvc:exclude-mapping path="/Order/orderItems"/>
-            <!--<mvc:exclude-mapping path="/Order/gogogo"/>-->
-            <!--<mvc:exclude-mapping path="/swagger-ui.html"/>-->
-            <bean class="com.awakeyoyoyo.Interceptor.UserdoInterceptor"></bean>
-        </mvc:interceptor>
+        <!--匹配的是url路径，如果不匹配或者/**，将拦截所有的Controller-->
+        <mvc:mapping path="/Order/*"/>
+        <!--/login 不需要拦截-->
+        <mvc:exclude-mapping path="/Order/lists"/>
+        <mvc:exclude-mapping path="/Order/orderItems"/>
+        <mvc:exclude-mapping path="/webjars/**"/><!-- swagger静态资源-->
+        <mvc:exclude-mapping path="/v2/**"/><!-- swagger静态资源-->
+        <mvc:exclude-mapping path="/swagger-ui.html/**"/><!-- swagger静态资源-->
+        <mvc:exclude-mapping path="/swagger-resources/**"/><!-- swagger静态资源-->
+        <bean class="com.awakeyoyoyo.Interceptor.UserdoInterceptor"></bean>
+    </mvc:interceptor>
     </mvc:interceptors>
     <!-- servlet-mapping 映射路径:"*.do" "/""-->
     <!--静态资源 默认servlet配置
@@ -73,6 +77,7 @@
     <!-- 将SwaggerConfig配置类注入 -->
     <!-- 配置swagger资源不被拦截 -->
     <!--添加swagger配置-->
+    <!--<bean class="com.awakeyoyoyo.swagger.SwaggerConfig"></bean>-->
     <bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" id="swagger2Config"/>
     <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
     <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>

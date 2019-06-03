@@ -46,11 +46,12 @@ public class OrderServiceImpl implements IOrderService {
         if (orderVo.getUserId()==null){
             return  ServerResponse.createByErrorMessage("没传入用户id");
         }
+
         if (orderVo.getShippingId()==null){
             return  ServerResponse.createByErrorMessage("没传入收货地址");
         }
         //新建订单号
-        Long orderNo=getOrderIdByTime(orderVo.getUserId());
+        Long orderNo=getOrderIdByTime();
         orderVo.setOrderNo(orderNo);
 
         //新建每一个产品
@@ -81,7 +82,7 @@ public class OrderServiceImpl implements IOrderService {
         if (rowcount<=0){
             return ServerResponse.createByErrorMessage("新建订单失败");
         }
-        return ServerResponse.createBySuccess();
+        return ServerResponse.createBySuccess(order);
     }
 
     @Override
@@ -305,7 +306,19 @@ public class OrderServiceImpl implements IOrderService {
         return ServerResponse.createBySuccess(orderMapper.selectByTypeStatus(str,OrderStatusCode.UnAccept.getCode()));
     }
 
-    public Long getOrderIdByTime(String openId) {
+    @Override
+    public ServerResponse getOrder(Long orderNo, String openId) {
+        if (orderMapper.checkOrderByOpenIdOrderNo(openId,orderNo)>0){
+            Order order=orderMapper.selectByPrimaryKey(orderNo);
+            return ServerResponse.createBySuccess(order);
+        }
+        else {
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+
+    }
+
+    public Long getOrderIdByTime() {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHH");
         String newDate=sdf.format(new Date());
         String result="";
@@ -313,7 +326,9 @@ public class OrderServiceImpl implements IOrderService {
             for(int i=0;i<3;i++){
             result+=random.nextInt(10);
             }
-            return  Long.parseLong(newDate+openId+result);
+            newDate+=random.nextInt(30000);
+
+            return  Long.parseLong(newDate+result);
     }
 
 }

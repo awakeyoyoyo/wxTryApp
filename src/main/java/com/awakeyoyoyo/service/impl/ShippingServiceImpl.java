@@ -25,7 +25,8 @@ public class ShippingServiceImpl implements IShippingService {
        shipping.setOpenId(openId);
        int rowcount=shippingMapper.insert(shipping);
        if (rowcount>0){
-           return ServerResponse.createBySuccess();
+
+           return ServerResponse.createBySuccess(shipping.getId());
        }
        return ServerResponse.createByErrorMessage("新增地址失败");
     }

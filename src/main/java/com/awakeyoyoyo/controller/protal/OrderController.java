@@ -27,10 +27,13 @@ public class OrderController {
     public ServerResponse createOrder(@RequestBody OrderVo orderVo,HttpServletRequest request){
         String openId=(String) request.getAttribute("openId");
         orderVo.setUserId(openId);
+        if (orderVo==null){
+            return ServerResponse.createByErrorMessage("没有传入参数");
+        }
         return iOrderService.add(orderVo);
     }
 
-//    @RequestMapping(value = "/gogogo",m)
+//    @RequestMapping(value = "/gogogo")
 //    public String sss(){
 //        return "Listcheck";
 //    }
@@ -46,6 +49,12 @@ public class OrderController {
     public ServerResponse cancelOrder(Long orderNo, HttpServletRequest request, Integer who){
         String openId=(String) request.getAttribute("openId");
         return iOrderService.cancelOrder(orderNo,openId,who);
+    }
+    @RequestMapping(value = "/getOrder.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getOrder(Long orderNo, HttpServletRequest request){
+        String openId=(String) request.getAttribute("openId");
+        return iOrderService.getOrder(orderNo,openId);
     }
 
     @RequestMapping(value = "/lists",method = RequestMethod.GET)

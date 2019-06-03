@@ -24,8 +24,11 @@
     delete from gotodo_shipping
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.awakeyoyoyo.entity.Shipping">
-    insert into gotodo_shipping (id, open_id, receiver_name, 
+  <insert id="insert" parameterType="com.awakeyoyoyo.entity.Shipping" useGeneratedKeys="true" keyProperty="id">
+      <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+          SELECT LAST_INSERT_ID() AS ID
+      </selectKey>
+    insert into gotodo_shipping (id, open_id, receiver_name,
       receiver_phone, receiver_place, receiver_dormitory
       )
     values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
